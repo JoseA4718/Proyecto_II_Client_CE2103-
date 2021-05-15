@@ -105,14 +105,14 @@ public:
     }
 
     void append(T element, int i) {
-        if (i >= this->len) {
-            throw std::out_of_range("Index out of range");
+        if (i < this->len) {
+
+            Node<T> *tmp = this->head;
+            for (int j = 0; j < i; ++j) {
+                tmp = tmp->getNext();
+            }
+            tmp->setValue(element);
         }
-        Node<T> *tmp = this->head;
-        for (int j = 0; j < i; ++j) {
-            tmp = tmp->getNext();
-        }
-        tmp->setValue(element);
     }
 
     /**>
