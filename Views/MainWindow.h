@@ -46,11 +46,16 @@ public:
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
+<<<<<<< HEAD
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
                 }
+=======
+                if (event.type == sf::Event::Closed)
+                    window.close();
+>>>>>>> master
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::A) {
                         window.close();
