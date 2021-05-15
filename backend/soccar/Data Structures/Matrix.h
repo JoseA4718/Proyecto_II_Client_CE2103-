@@ -60,7 +60,7 @@ public:
             temp = "O";
         }
         if (dynamic_cast<NormalBox*>(c) != nullptr) {
-            temp = " ";
+            temp = "-";
         }
         if (dynamic_cast<BoundBox*>(c) != nullptr) {
             temp = "*";
