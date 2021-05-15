@@ -9,5 +9,5 @@ file(COPY ${ALL_REQUIRED_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/libs/SFML-2.5.1/lib/cmake/SFML")
 
 find_package(SFML 2.5 COMPONENTS graphics window system network REQUIRED)
-add_executable(${PROJECT_NAME} main.cpp Views/MainWindow.h Views/BPGameSettings.h Views/GeneticPuzzleSettings.h Views/BPGame.h Views/GeneticPuzzle.h)
+add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-network)
