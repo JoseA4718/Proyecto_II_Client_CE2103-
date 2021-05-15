@@ -10,10 +10,7 @@
 #include "Field.h"
 #include "string"
 #include "GameSettings.h"
-<<<<<<< HEAD
 #include "../API/ServerConnection.h"
-=======
->>>>>>> PIIDII-6-yo-como-usuario-quiero-que-la-c
 
 using namespace std;
 
@@ -28,17 +25,11 @@ private:
     string actualPlayer;
     static Game *instance;
     int field_height = 9;
-<<<<<<< HEAD
-    int field_length = 18;
-
-    explicit Game(GameSettings *settings) {
-        this->field = new Field(this->field_height, this->field_length);
-=======
     int field_lenght = 18;
+
 
     explicit Game(GameSettings *settings) {
         this->field = new Field(this->field_height, this->field_lenght);
->>>>>>> PIIDII-6-yo-como-usuario-quiero-que-la-c
         this->ball = new Ball();
         this->player_1 = new Player(settings->getPlayer1Name());
         this->player_2 = new Player(settings->getPlayer2Name());
@@ -59,6 +50,7 @@ public:
         this->field->show();
 
     }
+
     /**
      * @brief Method for generating the field, do not adds the players.
      */
