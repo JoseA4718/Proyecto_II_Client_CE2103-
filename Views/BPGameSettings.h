@@ -22,13 +22,13 @@ public:
 
         sf::Texture bpGamebackground;
         if (!bpGamebackground.loadFromFile(
-                "/home/joseandres216/Escritorio/Jose Andres/TEC/Semestre V/Datos II/Proyecto II - Games/Client/Proyecto_II_Client_CE2103-/content/BPGameSettingsBackground.png"))
+                "/home/josea4718/Desktop/Proyecto II/Cliente/Proyecto_II_Client_CE2103-/content/BPGameSettingsBackground.png"))
             return EXIT_FAILURE;
         sf::Sprite bpGamebackgroundSprite(bpGamebackground);
 
         sf::Font font;
         if (!font.loadFromFile(
-                "/home/joseandres216/Escritorio/Jose Andres/TEC/Semestre V/Datos II/Proyecto II - Games/Client/Proyecto_II_Client_CE2103-/Fonts/Games/Games-Italic.ttf")) {
+                "/home/josea4718/Desktop/Proyecto II/Cliente/Proyecto_II_Client_CE2103-/Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
 
@@ -223,7 +223,7 @@ public:
                     if (event.key.code == sf::Keyboard::Enter) {
                         window.close();
                         BPGame *window = new BPGame();
-                        window->start();
+                        window->start(goalsTowin, playersPerteam, gamemode);
                     }
                 }
                 if (event.type == sf::Event::KeyReleased) {
