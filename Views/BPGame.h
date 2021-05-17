@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-class BPGame{
+class BPGame {
 public:
-    int start(){
+    int start() {
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
@@ -41,6 +41,7 @@ public:
             window.display();
         }
     }
+
 private:
 };
 

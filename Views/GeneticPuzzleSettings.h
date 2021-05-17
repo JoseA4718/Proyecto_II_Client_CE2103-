@@ -4,9 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "GeneticPuzzle.h"
 
-class GeneticPuzzleSettings{
+class GeneticPuzzleSettings {
 public:
-    int start(){
+    int start() {
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Genetic Puzzle Settings");
@@ -49,6 +49,7 @@ public:
             window.display();
         }
     }
+
 private:
 };
 

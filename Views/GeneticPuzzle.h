@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-class GeneticPuzzle{
+class GeneticPuzzle {
 public:
-    int start(){
+    int start() {
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Genetic Puzzle");
@@ -41,6 +41,7 @@ public:
             window.display();
         }
     }
+
 private:
 };
 

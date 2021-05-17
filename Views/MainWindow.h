@@ -6,9 +6,9 @@
 
 #include <SFML/Graphics.hpp>
 
-class MainWindow{
+class MainWindow {
 public:
-    int start(){
+    int start() {
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Let's Play");
@@ -17,7 +17,7 @@ public:
         if (!menuBackground.loadFromFile(
                 "/home/joseandres216/Escritorio/Jose Andres/TEC/Semestre V/Datos II/Proyecto II - Games/Client/Proyecto_II_Client_CE2103-/content/MenuBackground.png"))
             return EXIT_FAILURE;
-        sf::Sprite menuBackgroundprite(menuBackground);
+        sf::Sprite menuBackgroundsprite(menuBackground);
 
         sf::Font font;
         if (!font.loadFromFile(
@@ -69,12 +69,13 @@ public:
                 }
             }
             window.clear();
-            window.draw(menuBackgroundprite);
+            window.draw(menuBackgroundsprite);
             window.draw(bpGametext);
             window.draw(geneticPuzzletext);
             window.display();
         }
     }
+
 private:
 };
 
