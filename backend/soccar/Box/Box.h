@@ -48,6 +48,19 @@ public:
         Box::column = column;
     }
 
+    void setCoordinates(int x, int y){
+        this->pos_x = x;
+        this->pos_y = y;
+    }
+
+    int getX(){
+        return this->pos_x;
+    }
+
+    int getY(){
+        return this->pos_y;
+    }
+
 public:
     virtual ~Box() = default;
 
@@ -89,7 +102,7 @@ public:
     }
 
     void show() {
-        cout << "{Row: " << this->row << " Column: " << this->column << " }" << endl;
+        cout << "{x: " << this->pos_x << " y: " << this->pos_y << " }";
     }
 };
 

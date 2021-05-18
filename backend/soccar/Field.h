@@ -26,6 +26,8 @@ public:
         this->height = height;
         this->length = length;
         this->matrix = new Matrix(this->height, this->length);
+        this->generateField();
+        this->setPositions();
     }
 
     void generateField() {
@@ -77,6 +79,25 @@ public:
                 matrix->add(i, this->length, new BoundBox());
             }
         }
+    }
+
+    void setPositions(){
+        double height = 144;
+        double width = 358;
+        for (int i = 1; i <= this->height; i++) {
+            for (int j = 1; j <= this->length; j++) {
+                matrix->get(i, j)->setCoordinates(width, height);
+                width += 68.85;
+                matrix->get(i, j)->show();
+            }
+            height += 68.85;
+            width = 358;
+            cout << endl;
+        }
+    }
+
+    Matrix *getMatrix(){
+        return this->matrix;
     }
 
     void show() {

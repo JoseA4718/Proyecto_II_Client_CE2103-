@@ -39,6 +39,14 @@ public:
         }
     }
 
+    int getRows(){
+        return this->rows;
+    }
+
+    int getColumns(){
+        return this->columns;
+    }
+
     /**
      * Method for adding an element in the matrix position (i, j)
      * @param row i position of the new element on the matrix, must be minor to the rows field set in the constructor

@@ -1,6 +1,8 @@
 using namespace std;
 
 #include "iostream"
+#include "../backend/soccar/Game.h"
+#include "../backend/soccar/GameSettings.h"
 
 #ifndef PROYECTO_II_CLIENT_CE2103__BPGAMESETTINGS_H
 #define PROYECTO_II_CLIENT_CE2103__BPGAMESETTINGS_H
@@ -221,9 +223,18 @@ public:
                 //Enter input to change to BP Game Window
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Enter) {
+                        GameSettings *gameSettings = new GameSettings();
+                        gameSettings->setMaxGoals(this->goalsTowin)->setObstacles(this->playersPerteam)->setPlayer1Name(
+                                "Player 1");
+                        if(this->gamemode == "PvAI"){
+                            gameSettings->setPlayer2Name("AI");
+                        }else{
+                            gameSettings->setPlayer2Name("Player 2");
+                        }
+                        Game *game = new Game(gameSettings);
                         window.close();
                         BPGame *window = new BPGame();
-                        window->start(goalsTowin, playersPerteam, gamemode);
+                        window->start(game);
                     }
                 }
                 if (event.type == sf::Event::KeyReleased) {

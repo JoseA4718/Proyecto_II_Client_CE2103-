@@ -2,6 +2,7 @@
 #define PROYECTO_II_CLIENT_CE2103__BPGAME_H
 
 #include <SFML/Graphics.hpp>
+#include "../backend/soccar/Game.h"
 
 class BPGame {
 private:
@@ -14,10 +15,11 @@ private:
     int Player2Score;
 
 public:
-    int start(int goalstoWin, int playerNumber, string Gamemode) {
-        this->goals = goalstoWin;
-        this->numberOfPlayers = playerNumber;
-        this->gamemode = Gamemode;
+    //Falta Codigo
+    int start(Game *game) {
+        this->goals = 1;
+        this->numberOfPlayers = 1;
+        this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
         int width = 1600;
@@ -74,6 +76,15 @@ public:
         selectedDirection.setCharacterSize(35);
         selectedDirection.setFillColor(sf::Color::White);
         selectedDirection.setPosition(790, 850);
+
+        sf::Texture ball;
+        if (!ball.loadFromFile(("../content/ball.png")))
+            return  EXIT_FAILURE;
+        sf::Sprite ballSprite(ball);
+
+        sf::Texture player;
+        if (!player.loadFromFile(("../content/Player1Car.png")))
+            return  EXIT_FAILURE;
 
         while (window.isOpen()) {
             sf::Event event;
@@ -208,6 +219,41 @@ public:
             window.draw(goalsTowin);
             window.draw(selectedPower);
             window.draw(selectedDirection);
+
+            //Generation of the obstacles
+            for (int i = 1; i <= game->getMatrix()->getRows(); i++) {
+                for (int j = 1; j <= game->getMatrix()->getColumns(); j++) {
+                    Box *box = game->getMatrix()->get(i, j);
+                    int x = box->getPosX();
+                    int y = box->getPosY();
+                    sf::RectangleShape obstacles(sf::Vector2f(70, 70));
+                    obstacles.setPosition(x, y);
+                    obstacles.setFillColor(sf::Color::Transparent);
+                    obstacles.setOutlineColor(sf::Color::Black);
+                    obstacles.setOutlineThickness(1);
+                    if (dynamic_cast<GoalLineBox *>(box) != nullptr) {
+                        obstacles.setFillColor(sf::Color::Red);
+                    }
+                    if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
+                        sf::Sprite playerSprite(player);
+                        playerSprite.setPosition(x+3, y+3);
+                        window.draw(playerSprite);
+                    }
+                    if (dynamic_cast<BoundBox *>(box) != nullptr) {
+                        obstacles.setFillColor(sf::Color::White);
+                    }
+                    if (dynamic_cast<NormalBox *>(box) != nullptr) {
+                        obstacles.setFillColor(sf::Color::Green);
+                    }
+                    window.draw(obstacles);
+                }
+            }
+
+            //Generation of the ball
+            Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
+            ballSprite.setPosition(ballBox->getPosX()+3, ballBox->getPosY()+3);
+            window.draw(ballSprite);
+
             window.display();
         }
     }
