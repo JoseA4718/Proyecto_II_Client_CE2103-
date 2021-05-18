@@ -26,13 +26,13 @@ public:
 
         sf::Texture bpGamebackground;
         if (!bpGamebackground.loadFromFile(
-                "/home/josea4718/Desktop/Proyecto II/Cliente/Proyecto_II_Client_CE2103-/content/BPGameBackground.png"))
+                "../content/BPGameBackground.png"))
             return EXIT_FAILURE;
         sf::Sprite bpGamebackgroundSprite(bpGamebackground);
 
         sf::Font font;
         if (!font.loadFromFile(
-                "/home/josea4718/Desktop/Proyecto II/Cliente/Proyecto_II_Client_CE2103-/Fonts/Games/Games-Italic.ttf")) {
+                "../Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
         //Text of the player1Score
