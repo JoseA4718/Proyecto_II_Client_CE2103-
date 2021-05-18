@@ -2,11 +2,12 @@
 // Created by eduardozumbadog on 5/14/21.
 //
 #include "LinkedList.h"
-#include "../Box/Box.h"
+#include "../../soccar/Box/Box.h"
 #include "../Box/NormalBox.h"
-#include "../Box/ObstacleBox.h"
 #include "../Box/GoalLineBox.h"
+#include "../Box/ObstacleBox.h"
 #include "../Box/BoundBox.h"
+
 
 #ifndef BACKEND_MATRIX_H
 #define BACKEND_MATRIX_H
@@ -26,10 +27,13 @@ public:
         this->columns = columns;
         this->list = new LinkedList<LinkedList<Box *> *>();
         //add the horizontal rows
-        for (int i = 0; i < rows; i++) {
+        for (int i = 1; i <= rows; i++) {
             auto *newRow = new LinkedList<Box *>();
-            for (int j = 0; j < columns; j++) {
-                newRow->append(new NormalBox());
+            for (int j = 1; j <= columns; j++) {
+                NormalBox *new_element = new NormalBox();
+                new_element->setRow(i);
+                new_element->setColumn(j);
+                newRow->append(new_element);
             }
             this->list->append((newRow));
         }
@@ -42,28 +46,28 @@ public:
      * @param element to be added on the matrix
      */
     void add(int row, int column, Box *element) {
-        if (row >= this->rows or column >= this->columns) {
+        if (row > this->rows or column > this->columns) {
             cerr << "Element: " << element << " not added, index out of range" << endl;
             return;
         } else {
-            LinkedList<Box *> *matrix_row = this->list->get(row);
-            matrix_row->append(element, column);
+            LinkedList<Box *> *matrix_row = this->list->get(row - 1);
+            matrix_row->append(element, column - 1);
         }
     }
 
     string getBoxType(Box *c) {
         string temp;
-        if (dynamic_cast<GoalLineBox*>(c) != nullptr) {
-            temp = "|";
+        if (dynamic_cast<GoalLineBox *>(c) != nullptr) {
+            temp = (c->isHasBall()) ? "x" : "|";
         }
-        if (dynamic_cast<ObstacleBox*>(c) != nullptr) {
-            temp = "O";
+        if (dynamic_cast<ObstacleBox *>(c) != nullptr) {
+            temp = "0";
         }
-        if (dynamic_cast<NormalBox*>(c) != nullptr) {
-            temp = "-";
+        if (dynamic_cast<NormalBox *>(c) != nullptr) {
+            temp = (c->isHasBall()) ? "x" : "-";
         }
-        if (dynamic_cast<BoundBox*>(c) != nullptr) {
-            temp = "*";
+        if (dynamic_cast<BoundBox *>(c) != nullptr) {
+            temp = (c->isHasBall()) ? "x" : "*";
         }
         return temp;
     }
@@ -72,13 +76,31 @@ public:
         if (this->rows == 0 and this->columns == 0)
             cout << "[]" << endl;
         else {
-            for (int i = 0; i < this->rows; ++i) {
-                 for (int j = 0; j < this->columns; ++j) {
+            for (int i = 0; i < this->rows; i++) {
+                for (int j = 0; j < this->columns; j++) {
                     cout << getBoxType(this->list->get(i)->get(j)) << " ";
                 }
-                cout <<   endl;
+                cout << endl;
             }
         }
+    }
+
+    Box *get(int row, int column) {
+        Box *result;
+        if (this->rows == 0 and this->columns == 0)
+            result = nullptr;
+        else {
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < column; j++) {
+                    result = this->list->get(i)->get(j);
+                }
+            }
+        }
+        return result;
+    }
+
+    bool valid(int i, int i1) {
+        return (this->rows < i and this->columns < i1);
     }
 };
 

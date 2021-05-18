@@ -54,12 +54,6 @@ public:
         this->len = 0;
         this->tail = NULL;
     }
-
-
-    Node<T> *getHead() const {
-        return head;
-    }
-
     /**>
      * Method for deleting a Node of the list.
      * @tparam T Generic data type, must have equal operator.
@@ -151,39 +145,6 @@ public:
 
         }
         return tmp->getValue();
-    }
-
-    bool boolSearch(T element) {
-        bool result = false;
-        Node<T> *tmp = this->head;
-        //cout << "Searching: " << element << "\n";
-        for (int i = 0; i < (this->len); ++i) {
-            if (tmp->getValue() == element) {
-                //cout << "Found it!!\n";
-
-                result = true;
-                break;
-            }
-            //cout << "Visiting: " << tmp->getValue() << "\n";
-            tmp = tmp->getNext();
-        }
-        return result;
-    }
-
-    /**>
-     * Method for deleting the first element of the list.
-     * @tparam T Generic data type, must have equal operator.
-     */
-    void delHead() {
-        this->del(this->head->getValue());
-    }
-
-    void delTail() {
-        del(this->get(this->len - 1));
-    }
-
-    int getLen() {
-        return this->len;
     }
 };
 
