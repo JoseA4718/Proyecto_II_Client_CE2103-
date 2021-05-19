@@ -22,12 +22,14 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game Settings");
 
-        sf::Texture bpGamebackground;
-        if (!bpGamebackground.loadFromFile(
-                "../content/BPGameSettingsBackground.png"))
+        //Background resource loading
+        sf::Texture bpGamesettingsBackground;
+        if (!bpGamesettingsBackground.loadFromFile(
+                "../Resources/BPGameSettingsBackground.png"))
             return EXIT_FAILURE;
-        sf::Sprite bpGamebackgroundSprite(bpGamebackground);
+        sf::Sprite bpGamesettingsBackgroundsprite(bpGamesettingsBackground);
 
+        //Font resource loading
         sf::Font font;
         if (!font.loadFromFile(
                 "../Fonts/Games/Games-Italic.ttf")) {
@@ -63,190 +65,100 @@ public:
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
-                        cout << "x: " << event.mouseButton.x << endl;
-                        cout << "y: " << event.mouseButton.y << endl << endl;
-                    }
-                }
-                //PvP Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
                         if (event.mouseButton.x >= 290 && event.mouseButton.x <= 520 && event.mouseButton.y >= 190 &&
-                            event.mouseButton.y <= 390) {
+                            event.mouseButton.y <= 390) { //Button for PvP gamemode
                             this->gamemode = "PvP";
-                        }
-                    }
-                }
-                //PvAI Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 705 && event.mouseButton.x <= 935 && event.mouseButton.y >= 190 &&
-                            event.mouseButton.y <= 390) {
+                        } else if (event.mouseButton.x >= 705 && event.mouseButton.x <= 935 &&
+                                   event.mouseButton.y >= 190 &&
+                                   event.mouseButton.y <= 390) { //Button for PvAI gamemode
                             this->gamemode = "PvAI";
-                        }
-                    }
-                }
-                //1GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 55 && event.mouseButton.x <= 145 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 55 && event.mouseButton.x <= 145 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 1 goal to win
                             this->goalsTowin = 1;
-                        }
-                    }
-                }
-                //2GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 170 && event.mouseButton.x <= 260 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 170 && event.mouseButton.x <= 260 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 2 goal to win
                             this->goalsTowin = 2;
-                        }
-                    }
-                }
-                //3GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 285 && event.mouseButton.x <= 375 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 285 && event.mouseButton.x <= 375 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 3 goal to win
                             this->goalsTowin = 3;
-                        }
-                    }
-                }
-                //4GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 405 && event.mouseButton.x <= 495 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 405 && event.mouseButton.x <= 495 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 4 goal to win
                             this->goalsTowin = 4;
-                        }
-                    }
-                }
-                //5GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 520 && event.mouseButton.x <= 605 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 520 && event.mouseButton.x <= 605 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 5 goal to win
                             this->goalsTowin = 5;
-                        }
-                    }
-                }
-                //6GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 635 && event.mouseButton.x <= 720 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 635 && event.mouseButton.x <= 720 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 6 goal to win
                             this->goalsTowin = 6;
-                        }
-                    }
-                }
-                //7GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 750 && event.mouseButton.x <= 835 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 750 && event.mouseButton.x <= 835 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 7 goal to win
                             this->goalsTowin = 7;
-                        }
-                    }
-                }
-                //8GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 870 && event.mouseButton.x <= 955 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 870 && event.mouseButton.x <= 955 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 8 goal to win
                             this->goalsTowin = 8;
-                        }
-                    }
-                }
-                //9GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 980 && event.mouseButton.x <= 1070 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 980 && event.mouseButton.x <= 1070 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 9 goal to win
                             this->goalsTowin = 9;
-                        }
-                    }
-                }
-                //10GTW Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 1100 && event.mouseButton.x <= 1185 && event.mouseButton.y >= 470 &&
-                            event.mouseButton.y <= 555) {
+                        } else if (event.mouseButton.x >= 1100 && event.mouseButton.x <= 1185 &&
+                                   event.mouseButton.y >= 470 &&
+                                   event.mouseButton.y <= 555) { //Button for 10 goal to win
                             this->goalsTowin = 10;
-                        }
-                    }
-                }
-                //1PPT Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 335 && event.mouseButton.x <= 425 && event.mouseButton.y >= 655 &&
-                            event.mouseButton.y <= 735) {
+                        } else if (event.mouseButton.x >= 335 && event.mouseButton.x <= 425 &&
+                                   event.mouseButton.y >= 655 &&
+                                   event.mouseButton.y <= 735) { //Button for 1 player per team
                             this->playersPerteam = 1;
-                        }
-                    }
-                }
-                //2PPT Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 455 && event.mouseButton.x <= 540 && event.mouseButton.y >= 655 &&
-                            event.mouseButton.y <= 735) {
+                        } else if (event.mouseButton.x >= 455 && event.mouseButton.x <= 540 &&
+                                   event.mouseButton.y >= 655 &&
+                                   event.mouseButton.y <= 735) { //Button for 2 player per team
                             this->playersPerteam = 2;
-                        }
-                    }
-                }
-                //3PPT Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 570 && event.mouseButton.x <= 655 && event.mouseButton.y >= 655 &&
-                            event.mouseButton.y <= 735) {
+                        } else if (event.mouseButton.x >= 570 && event.mouseButton.x <= 655 &&
+                                   event.mouseButton.y >= 655 &&
+                                   event.mouseButton.y <= 735) { //Button for 3 player per team
                             this->playersPerteam = 3;
-                        }
-                    }
-                }
-                //4PPT Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 685 && event.mouseButton.x <= 775 && event.mouseButton.y >= 655 &&
-                            event.mouseButton.y <= 735) {
+                        } else if (event.mouseButton.x >= 685 && event.mouseButton.x <= 775 &&
+                                   event.mouseButton.y >= 655 &&
+                                   event.mouseButton.y <= 735) { //Button for 4 player per team
                             this->playersPerteam = 4;
-                        }
-                    }
-                }
-                //5PPT Button
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 800 && event.mouseButton.x <= 890 && event.mouseButton.y >= 655 &&
-                            event.mouseButton.y <= 735) {
+                        } else if (event.mouseButton.x >= 800 && event.mouseButton.x <= 890 &&
+                                   event.mouseButton.y >= 655 &&
+                                   event.mouseButton.y <= 735) { //Button for 5 player per team
                             this->playersPerteam = 5;
                         }
                     }
                 }
-                //Enter input to change to BP Game Window
                 if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Enter) {
+                    if (event.key.code == sf::Keyboard::Enter) { //Enter binding to go to next window
                         GameSettings *gameSettings = new GameSettings();
                         gameSettings->setMaxGoals(this->goalsTowin)->setObstacles(this->playersPerteam)->setPlayer1Name(
                                 "Player 1");
-                        if(this->gamemode == "PvAI"){
+                        if (this->gamemode == "PvAI") {
                             gameSettings->setPlayer2Name("AI");
-                        }else{
+                        } else {
                             gameSettings->setPlayer2Name("Player 2");
                         }
                         Game *game = new Game(gameSettings);
                         window.close();
                         BPGame *window = new BPGame();
                         window->start(game);
-                    }
-                }
-                if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Escape) {
+                    } else if (event.key.code == sf::Keyboard::Escape) { //Escape binding to close program
                         window.close();
                     }
                 }
+                //Binding to close program
                 if (event.type == sf::Event::Closed)
                     window.close();
             }
             window.clear();
-            window.draw(bpGamebackgroundSprite);
+            window.draw(bpGamesettingsBackgroundsprite);
             selectedGamemode.setString(this->gamemode);
             selectedGTW.setString(to_string(this->goalsTowin));
             selectedPPT.setString(to_string(this->playersPerteam));

@@ -26,17 +26,31 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
 
+        //Background resource loading
         sf::Texture bpGamebackground;
         if (!bpGamebackground.loadFromFile(
-                "../content/BPGameBackground.png"))
+                "../Resources/BPGameBackground.png"))
             return EXIT_FAILURE;
         sf::Sprite bpGamebackgroundSprite(bpGamebackground);
 
+        //Font resource loading
         sf::Font font;
         if (!font.loadFromFile(
                 "../Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
+
+        //Ball resource loading
+        sf::Texture ball;
+        if (!ball.loadFromFile(("../Resources/ball.png")))
+            return EXIT_FAILURE;
+        sf::Sprite ballSprite(ball);
+
+        //Player resource loading
+        sf::Texture player;
+        if (!player.loadFromFile(("../Resources/Player1Car.png")))
+            return EXIT_FAILURE;
+
         //Text of the player1Score
         sf::Text player1Score;
         player1Score.setFont(font);
@@ -67,7 +81,7 @@ public:
         selectedPower.setString(to_string(this->power));
         selectedPower.setCharacterSize(40);
         selectedPower.setFillColor(sf::Color::White);
-        selectedPower.setPosition(744, 770);
+        selectedPower.setPosition(735, 770);
 
         //Text of the selectedDirection
         sf::Text selectedDirection;
@@ -75,138 +89,79 @@ public:
         selectedDirection.setString(this->direction);
         selectedDirection.setCharacterSize(35);
         selectedDirection.setFillColor(sf::Color::White);
-        selectedDirection.setPosition(790, 850);
-
-        sf::Texture ball;
-        if (!ball.loadFromFile(("../content/ball.png")))
-            return  EXIT_FAILURE;
-        sf::Sprite ballSprite(ball);
-
-        sf::Texture player;
-        if (!player.loadFromFile(("../content/Player1Car.png")))
-            return  EXIT_FAILURE;
+        selectedDirection.setPosition(780, 850);
 
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
-                        cout << "x: " << event.mouseButton.x << endl;
-                        cout << "y: " << event.mouseButton.y << endl << endl;
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
                         if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 && event.mouseButton.y >= 88 &&
-                            event.mouseButton.y <= 135) {
+                            event.mouseButton.y <= 135) { //Button for 20 of power
                             this->power = 20;
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 && event.mouseButton.y >= 156 &&
-                            event.mouseButton.y <= 204) {
+                        } else if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 &&
+                                   event.mouseButton.y >= 156 &&
+                                   event.mouseButton.y <= 204) { //Button for 40 of power
                             this->power = 40;
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 && event.mouseButton.y >= 224 &&
-                            event.mouseButton.y <= 270) {
+                        } else if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 &&
+                                   event.mouseButton.y >= 224 &&
+                                   event.mouseButton.y <= 270) { //Button for 60 of power
                             this->power = 60;
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 && event.mouseButton.y >= 290 &&
-                            event.mouseButton.y <= 337) {
+                        } else if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 &&
+                                   event.mouseButton.y >= 290 &&
+                                   event.mouseButton.y <= 337) { //Button for 80 of power
                             this->power = 80;
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 && event.mouseButton.y >= 449 &&
-                            event.mouseButton.y <= 533) {
+                        } else if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 &&
+                                   event.mouseButton.y >= 449 &&
+                                   event.mouseButton.y <= 533) { //Button for leftup direction
                             this->direction = "leftup";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 && event.mouseButton.y >= 539 &&
-                            event.mouseButton.y <= 622) {
+                        } else if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 &&
+                                   event.mouseButton.y >= 539 &&
+                                   event.mouseButton.y <= 622) { //Button for left direction
                             this->direction = "left";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 && event.mouseButton.y >= 625 &&
-                            event.mouseButton.y <= 707) {
+                        } else if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 &&
+                                   event.mouseButton.y >= 625 &&
+                                   event.mouseButton.y <= 707) { //Button for leftdown direction
                             this->direction = "leftdown";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 && event.mouseButton.y >= 453 &&
-                            event.mouseButton.y <= 532) {
+                        } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
+                                   event.mouseButton.y >= 453 &&
+                                   event.mouseButton.y <= 532) { //Button for up direction
                             this->direction = "up";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 && event.mouseButton.y >= 541 &&
-                            event.mouseButton.y <= 619) {
+                        } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
+                                   event.mouseButton.y >= 541 &&
+                                   event.mouseButton.y <= 619) { //Button for pathfinder direction
                             this->direction = "Pathfinder";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 && event.mouseButton.y >= 625 &&
-                            event.mouseButton.y <= 706) {
+                        } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
+                                   event.mouseButton.y >= 625 &&
+                                   event.mouseButton.y <= 706) { //Button for down direction
                             this->direction = "down";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 && event.mouseButton.y >= 451 &&
-                            event.mouseButton.y <= 533) {
+                        } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
+                                   event.mouseButton.y >= 451 &&
+                                   event.mouseButton.y <= 533) { //Button for rightup direction
                             this->direction = "rightup";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 && event.mouseButton.y >= 539 &&
-                            event.mouseButton.y <= 620) {
+                        } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
+                                   event.mouseButton.y >= 539 &&
+                                   event.mouseButton.y <= 620) { //Button for right direction
                             this->direction = "right";
-                        }
-                    }
-                }
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 && event.mouseButton.y >= 628 &&
-                            event.mouseButton.y <= 706) {
+                        } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
+                                   event.mouseButton.y >= 628 &&
+                                   event.mouseButton.y <= 706) { //Button for rightdown direction
                             this->direction = "righdown";
                         }
                     }
                 }
+
+                //Escape binding to close program
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
                 }
+                //Binding to close program
                 if (event.type == sf::Event::Closed)
                     window.close();
             }
+
             window.clear();
             window.draw(bpGamebackgroundSprite);
             player1Score.setString(to_string(this->Player1Score));
@@ -220,7 +175,7 @@ public:
             window.draw(selectedPower);
             window.draw(selectedDirection);
 
-            //Generation of the obstacles
+            //Drawing of the obstacles
             for (int i = 1; i <= game->getMatrix()->getRows(); i++) {
                 for (int j = 1; j <= game->getMatrix()->getColumns(); j++) {
                     Box *box = game->getMatrix()->get(i, j);
@@ -236,7 +191,7 @@ public:
                     }
                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
                         sf::Sprite playerSprite(player);
-                        playerSprite.setPosition(x+3, y+3);
+                        playerSprite.setPosition(x + 3, y + 3);
                         window.draw(playerSprite);
                     }
                     if (dynamic_cast<BoundBox *>(box) != nullptr) {
@@ -249,16 +204,14 @@ public:
                 }
             }
 
-            //Generation of the ball
+            //Drawing of the ball
             Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
-            ballSprite.setPosition(ballBox->getPosX()+3, ballBox->getPosY()+3);
+            ballSprite.setPosition(ballBox->getPosX() + 3, ballBox->getPosY() + 3);
             window.draw(ballSprite);
 
             window.display();
         }
     }
-
-private:
 };
 
 #endif //PROYECTO_II_CLIENT_CE2103__BPGAME_H

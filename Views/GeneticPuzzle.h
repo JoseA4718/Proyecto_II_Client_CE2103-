@@ -28,6 +28,8 @@ public:
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
+
+                //Program closing bindings
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();

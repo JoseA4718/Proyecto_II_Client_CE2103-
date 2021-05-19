@@ -5,47 +5,85 @@
 #include "GeneticPuzzle.h"
 
 class GeneticPuzzleSettings {
+private:
+    string difficulty = "2X2";
 public:
     int start() {
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Genetic Puzzle Settings");
 
+        //Background resource loading
+        sf::Texture geneticPuzzlesettingsBackground;
+        if (!geneticPuzzlesettingsBackground.loadFromFile(
+                "../Resources/GeneticPuzzleSettingsBackground.png"))
+            return EXIT_FAILURE;
+        sf::Sprite geneticPuzzlesettingsBackgroudsprite(geneticPuzzlesettingsBackground);
+
+        //Font resource loading
         sf::Font font;
         if (!font.loadFromFile(
                 "../Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
 
-        sf::Text text;
-        text.setFont(font);
-        text.setString("Genetic Puzzle Settings Window");
-        text.setCharacterSize(50);
-        text.setFillColor(sf::Color::Red);
-        text.setOutlineColor(sf::Color::White);
-        text.setOutlineThickness(5);
-        text.setPosition(100, 100);
+        //Text of the selected difficulty
+        sf::Text selectedDifficulty;
+        selectedDifficulty.setFont(font);
+        selectedDifficulty.setString(this->difficulty);
+        selectedDifficulty.setCharacterSize(35);
+        selectedDifficulty.setFillColor(sf::Color::White);
+        selectedDifficulty.setPosition(900, 629);
 
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Escape) {
-                        window.close();
+                //Muestra de coordenadas
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        cout << "x: " << event.mouseButton.x << endl;
+                        cout << "y: " << event.mouseButton.y << endl << endl;
                     }
                 }
-                if (event.type == sf::Event::Closed)
-                    window.close();
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        if (event.mouseButton.x >= 455 && event.mouseButton.x <= 605 && event.mouseButton.y >= 360 &&
+                            event.mouseButton.y <= 500) { //Button for 2X2 difficulty
+                            this->difficulty = "2X2";
+                        } else if (event.mouseButton.x >= 655 && event.mouseButton.x <= 805 &&
+                                   event.mouseButton.y >= 360 &&
+                                   event.mouseButton.y <= 500) { //Button for 3X3 difficulty
+                            this->difficulty = "3X3";
+                        } else if (event.mouseButton.x >= 855 && event.mouseButton.x <= 1005 &&
+                                   event.mouseButton.y >= 360 &&
+                                   event.mouseButton.y <= 500) { //Button for 4X4 difficulty
+                            this->difficulty = "4X4";
+                        } else if (event.mouseButton.x >= 1065 && event.mouseButton.x <= 1220 &&
+                                   event.mouseButton.y >= 360 &&
+                                   event.mouseButton.y <= 500) { //Button for 5X5 difficulty
+                            this->difficulty = "5X5";
+                        }
+                    }
+                }
+                
                 if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::B) {
+                    if (event.key.code == sf::Keyboard::Enter) { //Enter binding to go to the next window
                         window.close();
                         GeneticPuzzle *window = new GeneticPuzzle();
                         window->start();
+                    } else if (event.key.code == sf::Keyboard::Escape) { //Escape binding to close program
+                        window.close();
                     }
                 }
+
+                //Binding to close program
+                if (event.type == sf::Event::Closed)
+                    window.close();
             }
             window.clear();
-            window.draw(text);
+            window.draw(geneticPuzzlesettingsBackgroudsprite);
+            selectedDifficulty.setString(this->difficulty);
+            window.draw(selectedDifficulty);
             window.display();
         }
     }

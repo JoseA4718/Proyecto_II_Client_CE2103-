@@ -749,7 +749,7 @@ public:
     }
 
 private:
-    //! Clone the content from rhs to this.
+    //! Clone the Resources from rhs to this.
     /*!
         \param rhs Source pointer.
         \param extraToken Extra tokens to be allocated.

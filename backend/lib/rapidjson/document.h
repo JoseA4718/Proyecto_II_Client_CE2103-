@@ -585,9 +585,9 @@ private:
 public:
 
     //! Constructor with JSON value type.
-    /*! This creates a Value of specified type with default content.
+    /*! This creates a Value of specified type with default Resources.
         \param type Type of the value.
-        \note Default content for number is zero.
+        \note Default Resources for number is zero.
     */
     explicit GenericValue(Type type) RAPIDJSON_NOEXCEPT : data_() {
         static const uint16_t defaultFlags[7] = {
