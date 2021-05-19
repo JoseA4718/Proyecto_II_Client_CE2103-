@@ -11,24 +11,46 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Genetic Puzzle Settings");
 
+        sf::Texture geneticPuzzlesettingsBackground;
+        if (!geneticPuzzlesettingsBackground.loadFromFile(
+                "../Resources/GeneticPuzzleSettingsBackground.png"))
+            return EXIT_FAILURE;
+        sf::Sprite geneticPuzzlesettingsBackgroudsprite(geneticPuzzlesettingsBackground);
+
         sf::Font font;
         if (!font.loadFromFile(
                 "../Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
 
-        sf::Text text;
-        text.setFont(font);
-        text.setString("Genetic Puzzle Settings Window");
-        text.setCharacterSize(50);
-        text.setFillColor(sf::Color::Red);
-        text.setOutlineColor(sf::Color::White);
-        text.setOutlineThickness(5);
-        text.setPosition(100, 100);
-
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        cout << "x: " << event.mouseButton.x << endl;
+                        cout << "y: " << event.mouseButton.y << endl << endl;
+                    }
+                }
+                //PvP Button
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        if (event.mouseButton.x >= 290 && event.mouseButton.x <= 520 && event.mouseButton.y >= 190 &&
+                            event.mouseButton.y <= 390) {
+
+                        }
+                    }
+                }
+                //Enter button for going to next window
+                if (event.type == sf::Event::KeyReleased) {
+                    if (event.key.code == sf::Keyboard::Enter) {
+                        window.close();
+                        GeneticPuzzle *window = new GeneticPuzzle();
+                        window->start();
+                    }
+                }
+
+                //Program closing bindings
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
@@ -36,16 +58,9 @@ public:
                 }
                 if (event.type == sf::Event::Closed)
                     window.close();
-                if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::B) {
-                        window.close();
-                        GeneticPuzzle *window = new GeneticPuzzle();
-                        window->start();
-                    }
-                }
             }
             window.clear();
-            window.draw(text);
+            window.draw(geneticPuzzlesettingsBackgroudsprite);
             window.display();
         }
     }

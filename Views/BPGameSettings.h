@@ -22,11 +22,11 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game Settings");
 
-        sf::Texture bpGamebackground;
-        if (!bpGamebackground.loadFromFile(
-                "../content/BPGameSettingsBackground.png"))
+        sf::Texture bpGamesettingsBackground;
+        if (!bpGamesettingsBackground.loadFromFile(
+                "../Resources/BPGameSettingsBackground.png"))
             return EXIT_FAILURE;
-        sf::Sprite bpGamebackgroundSprite(bpGamebackground);
+        sf::Sprite bpGamesettingsBackgroundsprite(bpGamesettingsBackground);
 
         sf::Font font;
         if (!font.loadFromFile(
@@ -61,12 +61,6 @@ public:
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        cout << "x: " << event.mouseButton.x << endl;
-                        cout << "y: " << event.mouseButton.y << endl << endl;
-                    }
-                }
                 //PvP Button
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
@@ -237,6 +231,8 @@ public:
                         window->start(game);
                     }
                 }
+
+                //Program closing bindings
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
@@ -246,7 +242,7 @@ public:
                     window.close();
             }
             window.clear();
-            window.draw(bpGamebackgroundSprite);
+            window.draw(bpGamesettingsBackgroundsprite);
             selectedGamemode.setString(this->gamemode);
             selectedGTW.setString(to_string(this->goalsTowin));
             selectedPPT.setString(to_string(this->playersPerteam));

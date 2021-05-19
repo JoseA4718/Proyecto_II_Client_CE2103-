@@ -15,7 +15,7 @@ public:
 
         sf::Texture menuBackground;
         if (!menuBackground.loadFromFile(
-                "../content/MenuBackground.png"))
+                "../Resources/MenuBackground.png"))
             return EXIT_FAILURE;
         sf::Sprite menuBackgroundsprite(menuBackground);
 
@@ -46,11 +46,6 @@ public:
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Escape) {
-                        window.close();
-                    }
-                }
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (event.type == sf::Event::KeyReleased) {
@@ -67,6 +62,15 @@ public:
                         window->start();
                     }
                 }
+                
+                //Program closing bindings
+                if (event.type == sf::Event::KeyReleased) {
+                    if (event.key.code == sf::Keyboard::Escape) {
+                        window.close();
+                    }
+                }
+                if (event.type == sf::Event::Closed)
+                    window.close();
             }
             window.clear();
             window.draw(menuBackgroundsprite);

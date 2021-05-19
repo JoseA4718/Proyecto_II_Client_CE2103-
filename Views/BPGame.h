@@ -26,17 +26,31 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
 
+        //Background resource loading
         sf::Texture bpGamebackground;
         if (!bpGamebackground.loadFromFile(
-                "../content/BPGameBackground.png"))
+                "../Resources/BPGameBackground.png"))
             return EXIT_FAILURE;
         sf::Sprite bpGamebackgroundSprite(bpGamebackground);
 
+        //Font resource loading
         sf::Font font;
         if (!font.loadFromFile(
                 "../Fonts/Games/Games-Italic.ttf")) {
             window.close();
         }
+
+        //Ball resource loading
+        sf::Texture ball;
+        if (!ball.loadFromFile(("../Resources/ball.png")))
+            return  EXIT_FAILURE;
+        sf::Sprite ballSprite(ball);
+
+        //Player resource loading
+        sf::Texture player;
+        if (!player.loadFromFile(("../Resources/Player1Car.png")))
+            return  EXIT_FAILURE;
+
         //Text of the player1Score
         sf::Text player1Score;
         player1Score.setFont(font);
@@ -77,24 +91,9 @@ public:
         selectedDirection.setFillColor(sf::Color::White);
         selectedDirection.setPosition(790, 850);
 
-        sf::Texture ball;
-        if (!ball.loadFromFile(("../content/ball.png")))
-            return  EXIT_FAILURE;
-        sf::Sprite ballSprite(ball);
-
-        sf::Texture player;
-        if (!player.loadFromFile(("../content/Player1Car.png")))
-            return  EXIT_FAILURE;
-
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        cout << "x: " << event.mouseButton.x << endl;
-                        cout << "y: " << event.mouseButton.y << endl << endl;
-                    }
-                }
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
                         if (event.mouseButton.x >= 50 && event.mouseButton.x <= 102 && event.mouseButton.y >= 88 &&
@@ -199,6 +198,8 @@ public:
                         }
                     }
                 }
+
+                //Program closing bindings
                 if (event.type == sf::Event::KeyReleased) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
@@ -207,6 +208,7 @@ public:
                 if (event.type == sf::Event::Closed)
                     window.close();
             }
+
             window.clear();
             window.draw(bpGamebackgroundSprite);
             player1Score.setString(to_string(this->Player1Score));
@@ -220,7 +222,7 @@ public:
             window.draw(selectedPower);
             window.draw(selectedDirection);
 
-            //Generation of the obstacles
+            //Drawing of the obstacles
             for (int i = 1; i <= game->getMatrix()->getRows(); i++) {
                 for (int j = 1; j <= game->getMatrix()->getColumns(); j++) {
                     Box *box = game->getMatrix()->get(i, j);
@@ -249,7 +251,7 @@ public:
                 }
             }
 
-            //Generation of the ball
+            //Drawing of the ball
             Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
             ballSprite.setPosition(ballBox->getPosX()+3, ballBox->getPosY()+3);
             window.draw(ballSprite);
