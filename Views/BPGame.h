@@ -42,13 +42,13 @@ public:
 
         //Ball resource loading
         sf::Texture ball;
-        if (!ball.loadFromFile(("../Resources/ball.png")))
+        if (!ball.loadFromFile(("../Resources/Ball2.png")))
             return EXIT_FAILURE;
         sf::Sprite ballSprite(ball);
 
         //Player resource loading
         sf::Texture player;
-        if (!player.loadFromFile(("../Resources/Player1Car.png")))
+        if (!player.loadFromFile(("../Resources/Car4.png")))
             return EXIT_FAILURE;
 
         //Text of the player1Score
@@ -191,7 +191,7 @@ public:
                     }
                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
                         sf::Sprite playerSprite(player);
-                        playerSprite.setPosition(x + 3, y + 3);
+                        playerSprite.setPosition(x, y);
                         window.draw(playerSprite);
                     }
                     if (dynamic_cast<BoundBox *>(box) != nullptr) {
@@ -206,7 +206,7 @@ public:
 
             //Drawing of the ball
             Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
-            ballSprite.setPosition(ballBox->getPosX() + 3, ballBox->getPosY() + 3);
+            ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
             window.draw(ballSprite);
 
             window.display();
