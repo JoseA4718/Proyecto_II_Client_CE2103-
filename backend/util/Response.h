@@ -5,10 +5,10 @@
 #ifndef PROYECTO_II_SERVER_CE2103_RESPONSE_H
 #define PROYECTO_II_SERVER_CE2103_RESPONSE_H
 
-#include "../lib/rapidjson/rapidjson.h"
-#include "../lib/rapidjson/document.h"
-#include "../lib/rapidjson/writer.h"
-#include "../lib/rapidjson/stringbuffer.h"
+#include "../../lib/rapidjson/rapidjson.h"
+#include "../../lib/rapidjson/document.h"
+#include "../../lib/rapidjson/writer.h"
+#include "../../lib/rapidjson/stringbuffer.h"
 
 class Response {
 private:
@@ -56,9 +56,9 @@ public:
         return true;
     }
 
-private:
-    bool Deserialize(const rapidjson::Value &obj) {
-
+    bool Deserialize(string str) {
+        rapidjson::Document obj;
+        obj.Parse(str.c_str());
         this->setStatusCode(obj["status"].GetInt());
         this->setLog(obj["log"].GetString());
         this->setMessage(obj["message"].GetString());
