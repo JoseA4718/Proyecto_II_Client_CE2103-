@@ -2,13 +2,13 @@
 // Created by eduardozumbadog on 5/17/21.
 //
 
-#ifndef PROYECTO_II_SERVER_CE2103_RESPONSE_H
-#define PROYECTO_II_SERVER_CE2103_RESPONSE_H
+#ifndef PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#define PROYECTO_II_CLIENT_CE2103__CLIENT_H
 
-#include "../../lib/rapidjson/rapidjson.h"
-#include "../../lib/rapidjson/document.h"
-#include "../../lib/rapidjson/writer.h"
-#include "../../lib/rapidjson/stringbuffer.h"
+#include "../lib/rapidjson/rapidjson.h"
+#include "../lib/rapidjson/document.h"
+#include "../lib/rapidjson/writer.h"
+#include "../lib/rapidjson/stringbuffer.h"
 
 class Response {
 private:
@@ -70,4 +70,4 @@ public:
 };
 
 
-#endif //PROYECTO_II_SERVER_CE2103_RESPONSE_H
+#endif //PROYECTO_II_CLIENT_CE2103__CLIENT_H

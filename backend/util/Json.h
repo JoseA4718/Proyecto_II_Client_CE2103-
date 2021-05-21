@@ -2,12 +2,12 @@
 // Created by eduardozumbadog on 5/17/21.
 //
 
-#ifndef PROYECTO_II_SERVER_CE2103_JSON_H
-#define PROYECTO_II_SERVER_CE2103_JSON_H
+#ifndef PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#define PROYECTO_II_CLIENT_CE2103__CLIENT_H
 
-#include "../../lib/rapidjson/stringbuffer.h"
-#include "../../lib/rapidjson/writer.h"
-#include "../../lib/rapidjson/document.h"
+#include "../lib/rapidjson/stringbuffer.h"
+#include "../lib/rapidjson/writer.h"
+#include "../lib/rapidjson/document.h"
 #include "Response.h"
 #include "Message.h"
 
@@ -83,4 +83,4 @@ public:
 };
 
 
-#endif //PROYECTO_II_SERVER_CE2103_JSON_H
+#endif //PROYECTO_II_CLIENT_CE2103__CLIENT_H
