@@ -2,8 +2,8 @@
 // Created by eduardozumbadog on 5/19/21.
 //
 
-#ifndef PROYECTO_II_CLIENT_CE2103__CLIENT_H
-#define PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#ifndef PROYECTO_II_CLIENT_CE2103__MESSAGE_H
+#define PROYECTO_II_CLIENT_CE2103__MESSAGE_H
 
 #include "string"
 #include "../lib/rapidjson/rapidjson.h"

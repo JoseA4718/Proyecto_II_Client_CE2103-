@@ -1,9 +1,10 @@
 //
-// Created by eduardozumbadog on 5/17/21.
+// Created by josea4718 on 5/20/21.
 //
 
-#ifndef PROYECTO_II_CLIENT_CE2103__CLIENT_H
-#define PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#ifndef PROYECTO_II_CLIENT_CE2103__JSON_H
+#define PROYECTO_II_CLIENT_CE2103__JSON_H
+
 
 #include "../lib/rapidjson/stringbuffer.h"
 #include "../lib/rapidjson/writer.h"
@@ -83,4 +84,4 @@ public:
 };
 
 
-#endif //PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#endif //PROYECTO_II_CLIENT_CE2103__JSON_H

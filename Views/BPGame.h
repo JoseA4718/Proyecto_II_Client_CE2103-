@@ -3,6 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 #include "../backend/soccar/Game.h"
+#include "../backend/util/Response.h"
+#include "../backend/util/Message.h"
+#include "../backend/soccar/Route.h"
+#include "../backend/soccar/Shoot.h"
+#include "../backend/util/Json.h"
+#include "../Socket/ServerConnection .h"
+#include "../backend/soccar/Data Structures/LinkedList.h"
 
 class BPGame {
 private:
@@ -11,10 +18,31 @@ private:
     string gamemode;
     int power;
     string direction;
+    int dirX;
+    int dirY;
     int Player1Score;
     int Player2Score;
 
 public:
+    Route* Shot (){
+
+        Shoot *shoot1 = new Shoot();
+        shoot1->setDirX(dirX);
+        shoot1->setDirY(dirY);
+        shoot1->setStrength(power/4);
+        string shotJson = Json::convertShot(shoot1);
+
+        Message *msg = new Message();
+        msg->setBody(shotJson);
+        msg->setRequest("shot");
+
+        string msgJson = Json::convertMessage(msg);
+        Response *response = ServerConnection::sendMessage(msgJson);
+
+        Route *route = new Route();
+        route->Deserialize(response->getMessage());
+    }
+
     //Falta Codigo
     int start(Game *game) {
         this->goals = 1;
@@ -115,18 +143,26 @@ public:
                                    event.mouseButton.y >= 449 &&
                                    event.mouseButton.y <= 533) { //Button for leftup direction
                             this->direction = "leftup";
+                            this->dirX = -1;
+                            this->dirY = 1;
                         } else if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 &&
                                    event.mouseButton.y >= 539 &&
                                    event.mouseButton.y <= 622) { //Button for left direction
                             this->direction = "left";
+                            this->dirX = -1;
+                            this->dirY = 0;
                         } else if (event.mouseButton.x >= 15 && event.mouseButton.x <= 123 &&
                                    event.mouseButton.y >= 625 &&
                                    event.mouseButton.y <= 707) { //Button for leftdown direction
                             this->direction = "leftdown";
+                            this->dirX = -1;
+                            this->dirY = -1;
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 453 &&
                                    event.mouseButton.y <= 532) { //Button for up direction
                             this->direction = "up";
+                            this->dirX = 0;
+                            this->dirY = 1;
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 541 &&
                                    event.mouseButton.y <= 619) { //Button for pathfinder direction
@@ -135,18 +171,26 @@ public:
                                    event.mouseButton.y >= 625 &&
                                    event.mouseButton.y <= 706) { //Button for down direction
                             this->direction = "down";
+                            this->dirX = 0;
+                            this->dirY = -1;
                         } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
                                    event.mouseButton.y >= 451 &&
                                    event.mouseButton.y <= 533) { //Button for rightup direction
                             this->direction = "rightup";
+                            this->dirX = 1;
+                            this->dirY = 1;
                         } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
                                    event.mouseButton.y >= 539 &&
                                    event.mouseButton.y <= 620) { //Button for right direction
                             this->direction = "right";
+                            this->dirX = 1;
+                            this->dirY = 0;
                         } else if (event.mouseButton.x >= 242 && event.mouseButton.x <= 348 &&
                                    event.mouseButton.y >= 628 &&
                                    event.mouseButton.y <= 706) { //Button for rightdown direction
                             this->direction = "righdown";
+                            this->dirX = 1;
+                            this->dirY = -1;
                         }
                     }
                 }
@@ -156,7 +200,27 @@ public:
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
+                    if (event.key.code == sf::Keyboard::Enter){
+                        Route *route = Shot();
+                        LinkedList<Box*> *routeList = route->getRoute();
+
+                        for (int i = 0; i < routeList->len; ++i) {
+
+                            Box *box1 = routeList->get(i);
+                            Box *box = game->getMatrix()->get(box1->getPosX(), box1->getPosY());
+                            int x = box->getPosX();
+                            int y = box->getPosY();
+
+                            sf::Vector2f pos = ballSprite.getPosition();
+                            ballSprite.setPosition(pos.x + x, pos.y + y);
+                        }
+
+
+                        
+
+                    }
                 }
+
                 //Binding to close program
                 if (event.type == sf::Event::Closed)
                     window.close();
@@ -212,6 +276,7 @@ public:
             window.display();
         }
     }
+
 };
 
 #endif //PROYECTO_II_CLIENT_CE2103__BPGAME_H

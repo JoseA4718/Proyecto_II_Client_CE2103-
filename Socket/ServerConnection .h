@@ -5,6 +5,8 @@
 #ifndef PROYECTO_II_CLIENT_CE2103__SERVERCONNECTION_H
 #define PROYECTO_II_CLIENT_CE2103__SERVERCONNECTION_H
 
+#include "Client.h"
+
 class ServerConnection {
     /**
      * Receives a Message.h in Json format, send it to the server and waits for its response.
@@ -21,7 +23,8 @@ public:
         }
         Client::getInstance()->setMessage("");
 
-        Response *result = Json::readJsonResponse(response);
+        Response *result = new Response();
+        result->Deserialize(response);
         return result;
     }
 };

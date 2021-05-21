@@ -2,8 +2,8 @@
 // Created by eduardozumbadog on 5/17/21.
 //
 
-#ifndef PROYECTO_II_CLIENT_CE2103__CLIENT_H
-#define PROYECTO_II_CLIENT_CE2103__CLIENT_H
+#ifndef PROYECTO_II_CLIENT_CE2103__RESPONSE_H
+#define PROYECTO_II_CLIENT_CE2103__RESPONSE_H
 
 #include "../lib/rapidjson/rapidjson.h"
 #include "../lib/rapidjson/document.h"

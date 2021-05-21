@@ -4,7 +4,11 @@
 
 #ifndef BACKEND_SHOOT_H
 #define BACKEND_SHOOT_H
-
+#include "string"
+#include "../lib/rapidjson/rapidjson.h"
+#include "../lib/rapidjson/document.h"
+#include "../lib/rapidjson/writer.h"
+#include "../lib/rapidjson/stringbuffer.h"
 
 class Shoot {
     int strength;
