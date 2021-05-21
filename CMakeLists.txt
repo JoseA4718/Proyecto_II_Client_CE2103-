@@ -7,7 +7,8 @@ file(GLOB ALL_REQUIRED_DLL "${CMAKE_CURRENT_LIST_DIR}/libs/SFML-2.5.1/bin/*.dll"
 file(COPY ${ALL_REQUIRED_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/libs/SFML-2.5.1/lib/cmake/SFML")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 find_package(SFML 2.5 COMPONENTS graphics window system network REQUIRED)
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp Socket/Client.cpp Socket/Client.h)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-network)

@@ -6,6 +6,7 @@
 #define PROYECTO_II_CLIENT_CE2103__SERVERCONNECTION_H
 
 #include "Client.h"
+#include "../backend/util/Response.h"
 
 class ServerConnection {
     /**

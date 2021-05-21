@@ -10,7 +10,6 @@
 #include "Field.h"
 #include "string"
 #include "GameSettings.h"
-#include "../API/ServerConnection.h"
 
 using namespace std;
 
