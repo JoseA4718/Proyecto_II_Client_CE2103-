@@ -24,7 +24,7 @@ private:
     int Player2Score;
 
 public:
-    Route* Shot (){
+    /*Route* Shot (){
 
         Shoot *shoot1 = new Shoot();
         shoot1->setDirX(dirX);
@@ -41,7 +41,7 @@ public:
 
         Route *route = new Route();
         route->Deserialize(response->getMessage());
-    }
+    }*/
 
     //Falta Codigo
     int start(Game *game) {
@@ -200,8 +200,8 @@ public:
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
-                    if (event.key.code == sf::Keyboard::Enter){
-                        Route *route = Shot();
+                    if (event.key.code == sf::Keyboard::Enter) {
+                        /*Route *route = Shot();
                         LinkedList<Box*> *routeList = route->getRoute();
 
                         for (int i = 0; i < routeList->len; ++i) {
@@ -212,71 +212,65 @@ public:
                             int y = box->getPosY();
 
                             sf::Vector2f pos = ballSprite.getPosition();
-                            ballSprite.setPosition(pos.x + x, pos.y + y);
-                        }
-
-
-
-
+                            ballSprite.setPosition(pos.x + x, pos.y + y);*/
                     }
-                }
-
-                //Binding to close program
-                if (event.type == sf::Event::Closed)
-                    window.close();
-            }
-
-            window.clear();
-            window.draw(bpGamebackgroundSprite);
-            player1Score.setString(to_string(this->Player1Score));
-            player2Score.setString(to_string(this->Player2Score));
-            goalsTowin.setString(to_string(this->goals));
-            selectedPower.setString(to_string(this->power));
-            selectedDirection.setString(this->direction);
-            window.draw(player1Score);
-            window.draw(player2Score);
-            window.draw(goalsTowin);
-            window.draw(selectedPower);
-            window.draw(selectedDirection);
-
-            //Drawing of the obstacles
-            for (int i = 1; i <= game->getMatrix()->getRows(); i++) {
-                for (int j = 1; j <= game->getMatrix()->getColumns(); j++) {
-                    Box *box = game->getMatrix()->get(i, j);
-                    int x = box->getPosX();
-                    int y = box->getPosY();
-                    sf::RectangleShape obstacles(sf::Vector2f(70, 70));
-                    obstacles.setPosition(x, y);
-                    obstacles.setFillColor(sf::Color::Transparent);
-                    obstacles.setOutlineColor(sf::Color::Black);
-                    obstacles.setOutlineThickness(1);
-                    if (dynamic_cast<GoalLineBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::Red);
-                    }
-                    if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
-                        sf::Sprite playerSprite(player);
-                        playerSprite.setPosition(x, y);
-                        window.draw(playerSprite);
-                    }
-                    if (dynamic_cast<BoundBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::White);
-                    }
-                    if (dynamic_cast<NormalBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::Green);
-                    }
-                    window.draw(obstacles);
                 }
             }
 
-            //Drawing of the ball
-            Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
-            ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
-            window.draw(ballSprite);
-
-            window.display();
+            //Binding to close program
+            if (event.type == sf::Event::Closed)
+                window.close();
         }
-    }
 
+        window.clear();
+        window.draw(bpGamebackgroundSprite);
+        player1Score.setString(to_string(this->Player1Score));
+        player2Score.setString(to_string(this->Player2Score));
+        goalsTowin.setString(to_string(this->goals));
+        selectedPower.setString(to_string(this->power));
+        selectedDirection.setString(this->direction);
+        window.draw(player1Score);
+        window.draw(player2Score);
+        window.draw(goalsTowin);
+        window.draw(selectedPower);
+        window.draw(selectedDirection);
+
+        //Drawing of the obstacles
+        for (int i = 1; i <= game->getMatrix()->getRows(); i++) {
+            for (int j = 1; j <= game->getMatrix()->getColumns(); j++) {
+                Box *box = game->getMatrix()->get(i, j);
+                int x = box->getPosX();
+                int y = box->getPosY();
+                sf::RectangleShape obstacles(sf::Vector2f(70, 70));
+                obstacles.setPosition(x, y);
+                obstacles.setFillColor(sf::Color::Transparent);
+                obstacles.setOutlineColor(sf::Color::Black);
+                obstacles.setOutlineThickness(1);
+                if (dynamic_cast<GoalLineBox *>(box) != nullptr) {
+                    obstacles.setFillColor(sf::Color::Red);
+                }
+                if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
+                    sf::Sprite playerSprite(player);
+                    playerSprite.setPosition(x, y);
+                    window.draw(playerSprite);
+                }
+                if (dynamic_cast<BoundBox *>(box) != nullptr) {
+                    obstacles.setFillColor(sf::Color::White);
+                }
+                if (dynamic_cast<NormalBox *>(box) != nullptr) {
+                    obstacles.setFillColor(sf::Color::Green);
+                }
+                window.draw(obstacles);
+            }
+        }
+
+        //Drawing of the ball
+        Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
+        ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
+        window.draw(ballSprite);
+
+        window.display();
+    }
 };
 
 #endif //PROYECTO_II_CLIENT_CE2103__BPGAME_H

@@ -49,13 +49,6 @@ public:
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
-                //Muestra de coordenadas
-                if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        cout << "x: " << event.mouseButton.x << endl;
-                        cout << "y: " << event.mouseButton.y << endl << endl;
-                    }
-                }
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
                         if (event.mouseButton.x >= 455 && event.mouseButton.x <= 605 && event.mouseButton.y >= 360 &&

@@ -10,36 +10,39 @@ public:
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "Genetic Puzzle");
 
-        sf::Font font;
-        if (!font.loadFromFile(
-                "../Fonts/Games/Games-Italic.ttf")) {
-            window.close();
-        }
-
-        sf::Text text;
-        text.setFont(font);
-        text.setString("Genetic Puzzle Window");
-        text.setCharacterSize(50);
-        text.setFillColor(sf::Color::Red);
-        text.setOutlineColor(sf::Color::White);
-        text.setOutlineThickness(5);
-        text.setPosition(100, 100);
+        //Background resource loading
+        sf::Texture geneticPuzzlebackground;
+        if (!geneticPuzzlebackground.loadFromFile(
+                "../Resources/GeneticPuzzleBackground.png"))
+            return EXIT_FAILURE;
+        sf::Sprite geneticPuzzlebackgroundSprite(geneticPuzzlebackground);
 
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        if (event.mouseButton.x >= 535 && event.mouseButton.x <= 760 &&
+                            event.mouseButton.y >= 780 && event.mouseButton.y <= 865) { //Previous button
+                            cout<<"Prev";
+                        } else if (event.mouseButton.x >= 915 && event.mouseButton.x <= 1135 &&
+                                   event.mouseButton.y >= 780 && event.mouseButton.y <= 865) { //Next button
+                            cout<<"Nest";
+                        }
+                    }
+                }
 
-                //Program closing bindings
                 if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Escape) {
+                    if (event.key.code == sf::Keyboard::Escape) { //Escape binding to close program
                         window.close();
                     }
                 }
+                //Binding to close program
                 if (event.type == sf::Event::Closed)
                     window.close();
             }
             window.clear();
-            window.draw(text);
+            window.draw(geneticPuzzlebackgroundSprite);
             window.display();
         }
     }
