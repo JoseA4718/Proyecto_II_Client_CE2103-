@@ -21,11 +21,13 @@ public:
         string response;
         while (response.empty()) {
             response = Client::getInstance()->getMessage();
+
         }
         Client::getInstance()->setMessage("");
 
         Response *result = new Response();
         result->Deserialize(response);
+        cerr << result->getMessage() << endl;
         return result;
     }
 };

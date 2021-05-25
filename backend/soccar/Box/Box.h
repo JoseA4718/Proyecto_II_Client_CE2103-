@@ -102,7 +102,7 @@ public:
     }
 
     void show() {
-        cout << "{x: " << this->pos_x << " y: " << this->pos_y << " }";
+        cout << "{x: " << this->column << " y: " << this->row << " }";
     }
 };
 

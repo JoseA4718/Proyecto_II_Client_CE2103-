@@ -14,11 +14,11 @@ void runGUI(){
 }
 
 int main() {
-    //thread Client (runClient);
+    thread Client (runClient);
     thread Interface (runGUI);
 
 
-    //Client.join();
+    Client.join();
     Interface.join();
 
 
