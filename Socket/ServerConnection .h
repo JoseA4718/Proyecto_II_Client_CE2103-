@@ -27,7 +27,7 @@ public:
 
         Response *result = new Response();
         result->Deserialize(response);
-        cerr << result->getMessage() << endl;
+        //cerr << result->getMessage() << endl;
         return result;
     }
 };

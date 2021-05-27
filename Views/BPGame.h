@@ -11,6 +11,7 @@
 #include "../Socket/ServerConnection .h"
 #include "../backend/soccar/Data Structures/LinkedList.h"
 
+
 using namespace std;
 class BPGame {
 private:
@@ -23,6 +24,7 @@ private:
     int dirY;
     int Player1Score;
     int Player2Score;
+    Route *route1;
 
 public:
     Route *Shot() {
@@ -30,7 +32,7 @@ public:
         Shoot *shoot1 = new Shoot();
         shoot1->setDirX(dirX);
         shoot1->setDirY(dirY);
-        shoot1->setStrength(power / 4);
+        shoot1->setStrength(power / 10);
         string shotJson = Json::convertShot(shoot1);
 
         Message *msg = new Message();
@@ -43,8 +45,7 @@ public:
 
         Route *route = new Route();
         route->Deserialize(response->getMessage());
-        route->show();
-
+        route1 = route;
 
     }
 
@@ -206,18 +207,21 @@ public:
                         window.close();
                     }
                     if (event.key.code == sf::Keyboard::Enter) {
-                        Route *route = Shot();
-                        LinkedList<Box *> *routeList = route->getRoute();
-
+                        Shot();
+                        LinkedList<Box*> *routeList = route1->getRoute();
+                        route1->show();
                         for (int i = 0; i < routeList->len; ++i) {
 
                             Box *box1 = routeList->get(i);
-                            Box *box = game->getMatrix()->get(box1->getPosX(), box1->getPosY());
-                            int x = box->getPosX();
-                            int y = box->getPosY();
 
-                            sf::Vector2f pos = ballSprite.getPosition();
-                            ballSprite.setPosition(pos.x + x, pos.y + y);
+                            game->getBall()->setRow(box1->getRow());
+                            game->getBall()->setColumn(box1->getColumn());
+
+                            Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
+                            ballSprite.move(sf::Vector2f(ballBox->getPosX(), ballBox->getPosY()));
+
+                            window.draw(ballSprite);
+
                         }
                     }
                 }

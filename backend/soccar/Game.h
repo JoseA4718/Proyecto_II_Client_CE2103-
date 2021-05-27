@@ -29,7 +29,7 @@ private:
 public:
     explicit Game(GameSettings *settings) {
         this->field = new Field(this->field_height, this->field_lenght);
-        this->ball = new Ball(2, 2);
+        this->ball = new Ball(5, 9);
         this->player_1 = new Player(settings->getPlayer1Name());
         this->player_2 = new Player(settings->getPlayer2Name());
         this->max_goals = settings->getMaxGoals();

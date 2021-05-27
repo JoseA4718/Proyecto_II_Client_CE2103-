@@ -82,7 +82,7 @@ public:
         }
 
         //	Close the socket
-        close(sock);
+        //close(sock);
 
         return 0;
     }
@@ -97,6 +97,10 @@ public:
         if (sendRes == -1) {
             std::cout << "Send message failed" << std::endl;
         }
+    }
+
+    void SendPrueba(const char *msg){
+        send(sock,msg,strlen(msg),0);
     }
 
 
