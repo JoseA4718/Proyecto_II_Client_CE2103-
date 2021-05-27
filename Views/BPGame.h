@@ -257,19 +257,14 @@ public:
                                     window.draw(obstacles);
                                 }
                             }
-
                             Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
                             ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
-
                             window.draw(ballSprite);
-
                             window.display();
-
-                            sf::sleep(sf::milliseconds(1000));
+                            sf::sleep(sf::milliseconds(500));
                         }
                     }
                 }
-
                 //Binding to close program
                 if (event.type == sf::Event::Closed)
                     window.close();
