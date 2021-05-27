@@ -11,13 +11,17 @@ using namespace std;
 
 class Player {
 private:
-    int score;
+    int score = 0;
     string name;
 public:
     Player(const string &name) : name(name) {}
 
     int getScore() const {
         return score;
+    }
+
+    void addGoal() {
+        this->score++;
     }
 
     void setScore(int score) {

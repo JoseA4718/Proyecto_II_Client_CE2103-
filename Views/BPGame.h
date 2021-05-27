@@ -13,6 +13,7 @@
 
 
 using namespace std;
+
 class BPGame {
 private:
     int goals;
@@ -25,6 +26,7 @@ private:
     int Player1Score;
     int Player2Score;
     Route *route1;
+    Player *actuaPlayer;
 
 public:
     Route *Shot() {
@@ -56,6 +58,7 @@ public:
         this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
+        this->actuaPlayer = game->getPlayer1();
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
@@ -208,7 +211,8 @@ public:
                     }
                     if (event.key.code == sf::Keyboard::Enter) {
                         Shot();
-                        LinkedList<Box*> *routeList = route1->getRoute();
+                        LinkedList<Box *> *routeList = route1->getRoute();
+                        Box *ballBox;
                         route1->show();
                         for (int i = 0; i < routeList->len; ++i) {
 
@@ -257,12 +261,25 @@ public:
                                     window.draw(obstacles);
                                 }
                             }
-                            Box *ballBox = game->getMatrix()->get(game->getBall()->getRow(), game->getBall()->getColumn());
+                            ballBox = game->getMatrix()->get(game->getBall()->getRow(),
+                                                             game->getBall()->getColumn());
                             ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
                             window.draw(ballSprite);
                             window.display();
                             sf::sleep(sf::milliseconds(500));
                         }
+                        //evaluar el caso de que si fue gol
+
+                        if (dynamic_cast<GoalLineBox *>(ballBox) != nullptr) {
+                            this->actuaPlayer->addGoal();
+                            cout << "siiiiiiiiiiiuuuuuuuuuu " << actuaPlayer->getName() << " scored !" << endl;
+
+                            this->Player1Score = game->getPlayer1()->getScore();
+                            this->Player2Score = game->getPlayer2()->getScore();
+
+                        }
+                        this->actuaPlayer = game->getNextPlayer(this->actuaPlayer);
+                        cout << "actual player : " << this->actuaPlayer->getName() << endl;
                     }
                 }
                 //Binding to close program
@@ -321,4 +338,5 @@ public:
         }
     }
 };
+
 #endif //PROYECTO_II_CLIENT_CE2103__BPGAME_H

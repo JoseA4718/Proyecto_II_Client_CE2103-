@@ -35,13 +35,14 @@ public:
         this->max_goals = settings->getMaxGoals();
         this->obstacles = settings->getObstacles();
     };
+
     static Game *getInstance(GameSettings *settings = nullptr);
 
-    Matrix *getMatrix(){
+    Matrix *getMatrix() {
         return this->field->getMatrix();
     }
 
-    Ball *getBall(){
+    Ball *getBall() {
         return this->ball;
     }
 
@@ -60,6 +61,26 @@ public:
      */
     void buildField() {
         this->field->generateField();
+    }
+
+    Player *getPlayer1() const {
+        return player_1;
+    }
+
+    void setPlayer1(Player *player1) {
+        player_1 = player1;
+    }
+
+    Player *getPlayer2() const {
+        return player_2;
+    }
+
+    void setPlayer2(Player *player2) {
+        player_2 = player2;
+    }
+
+    Player *getNextPlayer(Player *actualPlayer) {
+        return ((actualPlayer == player_1) ? player_2 : player_1);
     }
 };
 
