@@ -60,6 +60,7 @@ public:
         for (int i = 0; i < this->route->len; ++i) {
             cout << i + 1 << " --> ";
             route->get(i)->show();
+            cout << endl;
         }
         cout << "---- ---- ----" << endl;
 

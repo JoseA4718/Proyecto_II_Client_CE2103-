@@ -9,12 +9,14 @@ using namespace std;
 
 #include <SFML/Graphics.hpp>
 #include "BPGame.h"
+#include "../backend/soccar/Game.h"
 
 class BPGameSettings {
 private:
     string gamemode = "PvAI";
     int goalsTowin = 0;
     int playersPerteam = 0;
+    Route *route1;
 
 public:
     int start() {
@@ -136,7 +138,9 @@ public:
                     }
                 }
                 if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Enter) { //Enter binding to go to next window
+                    if (event.key.code == sf::Keyboard::Enter) {
+
+                        //Enter binding to go to next window
                         GameSettings *gameSettings = new GameSettings();
                         gameSettings->setMaxGoals(this->goalsTowin)->setObstacles(this->playersPerteam)->setPlayer1Name(
                                 "Player 1");
@@ -145,10 +149,29 @@ public:
                         } else {
                             gameSettings->setPlayer2Name("Player 2");
                         }
-                        Game *game = new Game(gameSettings);
+                        //Game *game = new Game(gameSettings);
+                        Game::getInstance(gameSettings);
+
+                        Message *msg = new Message();
+
+                        msg->setBody(to_string(playersPerteam));
+                        msg->setRequest("obstacles");
+
+                        string msgJson = Json::convertMessage(msg);
+
+                        Response *response = ServerConnection::sendMessage(msgJson);
+
+                        Route *route = new Route();
+                        route->Deserialize(response->getMessage());
+
+                        route1 = route;
+                        route1->show();
+
+                        Game::getInstance()->getField()->generateObstacles(route1->getRoute());
+
                         window.close();
                         BPGame *window = new BPGame();
-                        window->start(game);
+                        window->start();
                     } else if (event.key.code == sf::Keyboard::Escape) { //Escape binding to close program
                         window.close();
                     }

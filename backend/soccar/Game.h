@@ -73,6 +73,9 @@ public:
     Player *getPlayer1() const {
         return player_1;
     }
+    Field *getField(){
+        return this->field;
+    }
 
     void setPlayer1(Player *player1) {
         player_1 = player1;
