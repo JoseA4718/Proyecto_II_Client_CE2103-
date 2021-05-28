@@ -1,6 +1,9 @@
 #ifndef PROYECTO_II_CLIENT_CE2103__BPGAME_H
 #define PROYECTO_II_CLIENT_CE2103__BPGAME_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <SFML/Graphics.hpp>
 #include "../backend/soccar/Game.h"
 #include "../backend/util/Response.h"
@@ -64,10 +67,26 @@ public:
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
 
         //Background resource loading
+        srand(time(0));
+        int teams = rand() % 5 + 1;
         sf::Texture bpGamebackground;
-        if (!bpGamebackground.loadFromFile(
-                "../Resources/BPGameBackground.png"))
-            return EXIT_FAILURE;
+        switch (teams) {
+            case 1:
+                bpGamebackground.loadFromFile("../Resources/BPGameBackgroundLDAvSAP.png");
+                break;
+            case 2:
+                bpGamebackground.loadFromFile("../Resources/BPGameBackgroundFCBvRMA.png");
+                break;
+            case 3:
+                bpGamebackground.loadFromFile("../Resources/BPGameBackgroundFCBvBVB.png");
+                break;
+            case 4:
+                bpGamebackground.loadFromFile("../Resources/BPGameBackgroundRIVvBOC.png");
+                break;
+            case 5:
+                bpGamebackground.loadFromFile("../Resources/BPGameBackgroundACMvINT.png");
+                break;
+        }
         sf::Sprite bpGamebackgroundSprite(bpGamebackground);
 
         //Font resource loading
@@ -85,8 +104,24 @@ public:
 
         //Player resource loading
         sf::Texture player;
-        if (!player.loadFromFile(("../Resources/Car4.png")))
+        if (!player.loadFromFile(("../Resources/Car3.png")))
             return EXIT_FAILURE;
+
+        //Text of the player1Name
+        sf::Text player1Name;
+        player1Name.setFont(font);
+        player1Name.setString("Player 1");
+        player1Name.setCharacterSize(80);
+        player1Name.setFillColor(sf::Color::Red);
+        player1Name.setPosition(425, 16);
+
+        //Text of the player2Name
+        sf::Text player2Name;
+        player2Name.setFont(font);
+        player2Name.setString("Player 2");
+        player2Name.setCharacterSize(80);
+        player2Name.setFillColor(sf::Color::White);
+        player2Name.setPosition(1200, 16);
 
         //Text of the player1Score
         sf::Text player1Score;
@@ -228,6 +263,8 @@ public:
                             goalsTowin.setString(to_string(this->goals));
                             selectedPower.setString(to_string(this->power));
                             selectedDirection.setString(this->direction);
+                            window.draw(player1Name);
+                            window.draw(player2Name);
                             window.draw(player1Score);
                             window.draw(player2Score);
                             window.draw(goalsTowin);
@@ -242,21 +279,10 @@ public:
                                     sf::RectangleShape obstacles(sf::Vector2f(70, 70));
                                     obstacles.setPosition(x, y);
                                     obstacles.setFillColor(sf::Color::Transparent);
-                                    obstacles.setOutlineColor(sf::Color::Black);
-                                    obstacles.setOutlineThickness(1);
-                                    if (dynamic_cast<GoalLineBox *>(box) != nullptr) {
-                                        obstacles.setFillColor(sf::Color::Red);
-                                    }
                                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
                                         sf::Sprite playerSprite(player);
                                         playerSprite.setPosition(x, y);
                                         window.draw(playerSprite);
-                                    }
-                                    if (dynamic_cast<BoundBox *>(box) != nullptr) {
-                                        obstacles.setFillColor(sf::Color::White);
-                                    }
-                                    if (dynamic_cast<NormalBox *>(box) != nullptr) {
-                                        obstacles.setFillColor(sf::Color::Green);
                                     }
                                     window.draw(obstacles);
                                 }
@@ -268,18 +294,76 @@ public:
                             window.display();
                             sf::sleep(sf::milliseconds(500));
                         }
-                        //evaluar el caso de que si fue gol
 
+                        //Goal check
                         if (dynamic_cast<GoalLineBox *>(ballBox) != nullptr) {
-                            this->actuaPlayer->addGoal();
-                            cout << "siiiiiiiiiiiuuuuuuuuuu " << actuaPlayer->getName() << " scored !" << endl;
+                            //Drawing of the goal screen
+                            window.clear();
+                            sf::RectangleShape goalBackground(sf::Vector2f(1600, 900));
+                            sf::Text goalText;
+                            goalText.setFont(font);
+                            
+                            if(game->getBall()->getColumn() != 1){
+                                auto pPlayer = game->getPlayer1();
+                                pPlayer->addGoal();
+                                goalBackground.setFillColor(sf::Color::Red);
+                                goalText.setString("Player 1 scored!");
+                            }else{
+                                auto player2 = game->getPlayer2();
+                                player2->addGoal();
+                                goalBackground.setFillColor(sf::Color::Blue);
+                                goalText.setString("Player 2 scored!");
+                            }
+                            
+                            goalText.setCharacterSize(150);
+                            goalText.setFillColor(sf::Color::White);
+                            goalText.setPosition(150, 350);
+                            window.draw(goalBackground);
+                            window.draw(goalText);
+                            window.display();
+                            sf::sleep(sf::milliseconds(2000));
 
+                            //Update of the scores
                             this->Player1Score = game->getPlayer1()->getScore();
                             this->Player2Score = game->getPlayer2()->getScore();
 
+                            //Update ball position
+                            game->getBall()->setRow(5);
+                            game->getBall()->setColumn(9);
                         }
+
+                        //Winner check
+                        if(game->scoreCheck()) {
+                            window.clear();
+                            sf::RectangleShape winnerBackground(sf::Vector2f(1600, 900));
+                            sf::Text winnerText;
+                            winnerText.setFont(font);
+                            if(game->getPlayer1()->getScore() == game->getMaxgoals()){
+                                winnerText.setString("Player 1 wins!");
+                                winnerBackground.setFillColor(sf::Color::Red);
+                            }else{
+                                winnerText.setString("Player 2 wins!");
+                                winnerBackground.setFillColor(sf::Color::Blue);
+                            }
+                            winnerText.setCharacterSize(150);
+                            winnerText.setFillColor(sf::Color::White);
+                            winnerText.setPosition(200, 350);
+                            window.draw(winnerBackground);
+                            window.draw(winnerText);
+                            window.display();
+                            sf::sleep(sf::milliseconds(2000));
+                            window.close();
+                        }
+
+                        //Next player
                         this->actuaPlayer = game->getNextPlayer(this->actuaPlayer);
-                        cout << "actual player : " << this->actuaPlayer->getName() << endl;
+                        if (actuaPlayer->getName() == "Player 1") {
+                            player1Name.setFillColor(sf::Color::Red);
+                            player2Name.setFillColor(sf::Color::White);
+                        } else {
+                            player2Name.setFillColor(sf::Color::Blue);
+                            player1Name.setFillColor(sf::Color::White);
+                        }
                     }
                 }
                 //Binding to close program
@@ -294,6 +378,8 @@ public:
             goalsTowin.setString(to_string(this->goals));
             selectedPower.setString(to_string(this->power));
             selectedDirection.setString(this->direction);
+            window.draw(player1Name);
+            window.draw(player2Name);
             window.draw(player1Score);
             window.draw(player2Score);
             window.draw(goalsTowin);
@@ -309,21 +395,10 @@ public:
                     sf::RectangleShape obstacles(sf::Vector2f(70, 70));
                     obstacles.setPosition(x, y);
                     obstacles.setFillColor(sf::Color::Transparent);
-                    obstacles.setOutlineColor(sf::Color::Black);
-                    obstacles.setOutlineThickness(1);
-                    if (dynamic_cast<GoalLineBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::Red);
-                    }
                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
                         sf::Sprite playerSprite(player);
                         playerSprite.setPosition(x, y);
                         window.draw(playerSprite);
-                    }
-                    if (dynamic_cast<BoundBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::White);
-                    }
-                    if (dynamic_cast<NormalBox *>(box) != nullptr) {
-                        obstacles.setFillColor(sf::Color::Green);
                     }
                     window.draw(obstacles);
                 }

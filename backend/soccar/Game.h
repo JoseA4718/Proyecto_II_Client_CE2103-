@@ -27,6 +27,9 @@ private:
     int field_lenght = 18;
 
 public:
+    bool scoreCheck(){
+        return this->player_1->getScore() == this->max_goals or this->player_2->getScore() == this->max_goals;
+    }
     explicit Game(GameSettings *settings) {
         this->field = new Field(this->field_height, this->field_lenght);
         this->ball = new Ball(5, 9);
@@ -35,6 +38,10 @@ public:
         this->max_goals = settings->getMaxGoals();
         this->obstacles = settings->getObstacles();
     };
+
+    int getMaxgoals(){
+        return this->max_goals;
+    }
 
     static Game *getInstance(GameSettings *settings = nullptr);
 
