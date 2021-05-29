@@ -19,7 +19,7 @@ using namespace std;
 
 class BPGame {
 private:
-    int goals;
+    int goals = Game::getInstance()->getMaxgoals();
     int numberOfPlayers;
     string gamemode;
     int power;
@@ -58,8 +58,6 @@ public:
     //Falta Codigo
     int start() {
         Game::getInstance()->getField()->setPositions();
-        this->goals = 1;
-        this->numberOfPlayers = 1;
         this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
