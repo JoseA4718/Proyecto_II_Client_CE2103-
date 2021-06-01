@@ -11,12 +11,25 @@
 #include "../lib/rapidjson/document.h"
 #include "Response.h"
 #include "Message.h"
+#include "../soccar/Path.h"
 
 using namespace std;
 using namespace rapidjson;
 
 class Json {
 public:
+    static string convertPath(Path *path) {
+        Document generated_json;
+        generated_json.SetArray();
+        Document::AllocatorType &allocator = generated_json.GetAllocator();
+        StringBuffer strbuf;
+        Writer<rapidjson::StringBuffer> writer(strbuf);
+        path->Serialize(&writer);
+
+        return strbuf.GetString();
+
+    }
+
     /**
      * @brief Convert from Route.h to string
      * @param route instance to convert
