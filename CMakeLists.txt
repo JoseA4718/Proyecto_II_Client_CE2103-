@@ -10,5 +10,5 @@ set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/libs/SFML-2.5.1/lib/cmake/SFML")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 find_package(SFML 2.5 COMPONENTS graphics window system network REQUIRED)
-add_executable(${PROJECT_NAME} main.cpp Socket/Client.cpp Socket/Client.h)
+add_executable(${PROJECT_NAME} main.cpp Socket/Client.cpp Socket/Client.h backend/soccar/Path.h)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-network)
