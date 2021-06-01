@@ -12,6 +12,8 @@ class GameSettings {
 public:
     string player1_name;
     string player2_name;
+    int max_goals;
+    int obstacles;
 
     const string &getPlayer1Name() const {
         return player1_name;
@@ -49,10 +51,6 @@ public:
         return this;
 
     }
-
-    int max_goals;
-    int obstacles;
-
 };
 
 

@@ -13,6 +13,7 @@
 class Shoot {
     int strength;
     int dir_x;
+    int dir_y;
 public:
     int getStrength() const {
         return strength;
@@ -44,8 +45,6 @@ public:
         this->setDirX(obj["dir_x"].GetInt());
         this->setDirY(obj["dir_y"].GetInt());
         this->setStrength(obj["strength"].GetInt());
-
-
         return true;
     }
 
@@ -64,9 +63,6 @@ public:
 
         return true;
     }
-
-private:
-    int dir_y;
 };
 
 

@@ -13,6 +13,7 @@
 #include "../backend/util/Json.h"
 #include "../Socket/ServerConnection .h"
 #include "../backend/soccar/Data Structures/LinkedList.h"
+#include "../backend/soccar/Path.h"
 
 
 using namespace std;
@@ -29,10 +30,11 @@ private:
     int Player1Score;
     int Player2Score;
     Route *route1;
-    Player *actuaPlayer;
+    Player *actualPlayer;
+    Route *pathfindingAroute;
 
 public:
-    Route *Shot() {
+    void *Shot() {
 
         Shoot *shoot1 = new Shoot();
         shoot1->setDirX(dirX);
@@ -51,17 +53,39 @@ public:
         Route *route = new Route();
         route->Deserialize(response->getMessage());
         route1 = route;
-
     }
 
+    void *calculatePathfinding(){
+        Path* path = new Path();
+        path->setStartY(Game::getInstance()->getBall()->getColumn());
+        path->setStartX(Game::getInstance()->getBall()->getRow());
+        if(this->actualPlayer->getName() == "Player 1"){
+            path->setEndY(18);
+            path->setEndX(5);
+        }else{
+            path->setEndY(1);
+            path->setEndX(5);
+        }
+        Message *msg = new Message();
+        msg->setBody(Json::convertPath(path));
+        msg->setRequest("star");
 
-    //Falta Codigo
+        string msgJson = Json::convertMessage(msg);
+        cerr<<"msgJson: " << msgJson << endl;
+        Response *response = ServerConnection::sendMessage(msgJson);
+
+        Route *pathfinding = new Route();
+        pathfinding->Deserialize(response->getMessage());
+        pathfinding->show();
+        this->pathfindingAroute = pathfinding;
+    }
+
     int start() {
         Game::getInstance()->getField()->setPositions();
         this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
-        this->actuaPlayer = Game::getInstance()->getPlayer1();
+        this->actualPlayer = Game::getInstance()->getPlayer1();
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
@@ -215,8 +239,9 @@ public:
                             this->dirY = 1;
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 541 &&
-                                   event.mouseButton.y <= 619) { //Button for pathfinder direction
-                            this->direction = "Pathfinder";
+                                   event.mouseButton.y <= 619) { //Button for pathfinding direction
+                            this->direction = "Pro tip";
+                            calculatePathfinding();
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 625 &&
                                    event.mouseButton.y <= 706) { //Button for down direction
@@ -370,8 +395,8 @@ public:
                         }
 
                         //Next player1
-                        this->actuaPlayer = Game::getInstance()->getNextPlayer(this->actuaPlayer);
-                        if (actuaPlayer->getName() == "Player 1") {
+                        this->actualPlayer = Game::getInstance()->getNextPlayer(this->actualPlayer);
+                        if (actualPlayer->getName() == "Player 1") {
                             player1Name.setFillColor(sf::Color::Red);
                             player2Name.setFillColor(sf::Color::White);
                         } else {
