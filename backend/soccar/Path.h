@@ -4,6 +4,7 @@
 
 #ifndef PROYECTO_II_CLIENT_CE2103__PATH_H
 #define PROYECTO_II_CLIENT_CE2103__PATH_H
+
 #include "Route.h"
 #include "string"
 #include "../soccar/Data Structures/Matrix.h"
@@ -47,6 +48,11 @@ public:
         end_y = endY;
     }
 
+/**
+ * @brief Method for loading the information of a json string into the object
+ * @param basicString rapidjson object of the string parsed into a json.
+ * @return true if success
+ */
     bool Deserialize(const string &basicString) {
         rapidjson::Document obj;
         obj.Parse(basicString.c_str());
@@ -58,7 +64,12 @@ public:
         return true;
     }
 
-    bool Serialize(rapidjson::Writer <rapidjson::StringBuffer> *writer) {
+/**
+ * @brief Method for loading the object's information into a json
+ * @param writer rapidjson writer instance.
+ * @return true is success.
+ */
+    bool Serialize(rapidjson::Writer<rapidjson::StringBuffer> *writer) {
         writer->StartObject();
 
         writer->String("start_x");

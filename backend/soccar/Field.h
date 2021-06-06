@@ -14,7 +14,9 @@
 #include "string"
 
 using namespace std;
-
+/**
+ * @brief This class represents the field of the game, its used to control the logic of the movement of the ball and obstacles.
+ */
 class Field {
 private:
     Matrix *matrix;

@@ -4,6 +4,7 @@
 
 #ifndef BACKEND_SHOOT_H
 #define BACKEND_SHOOT_H
+
 #include "string"
 #include "../lib/rapidjson/rapidjson.h"
 #include "../lib/rapidjson/document.h"
@@ -39,6 +40,11 @@ public:
         dir_y = dirY;
     }
 
+/**
+ * @brief Method for loading the information of a json string into the object
+ * @param str rapidjson object of the string parsed into a json.
+ * @return true if success
+ */
     bool Deserialize(string str) {
         rapidjson::Document obj;
         obj.Parse(str.c_str());
@@ -48,6 +54,11 @@ public:
         return true;
     }
 
+/**
+ * @brief Method for loading the object's information into a json
+ * @param writer rapidjson writer instance.
+ * @return true is success.
+ */
     bool Serialize(rapidjson::Writer<rapidjson::StringBuffer> *writer) {
 
         writer->StartObject();
@@ -64,7 +75,6 @@ public:
         return true;
     }
 };
-
 
 
 #endif //BACKEND_SHOOT_H

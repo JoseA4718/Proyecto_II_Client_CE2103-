@@ -8,7 +8,9 @@
 #include "string"
 
 using namespace std;
-
+/**
+ * @brief This class represents the players of the game.
+ */
 class Player {
 private:
     int score = 0;

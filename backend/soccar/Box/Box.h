@@ -11,7 +11,9 @@
 #include "../../lib/rapidjson/document.h"
 #include "../../lib/rapidjson/writer.h"
 #include "../../lib/rapidjson/stringbuffer.h"
-
+/**
+ * @brief Abstract class for the different types of segments in the field.
+ */
 class Box {
 private:
     //Position to draw the box in
@@ -61,13 +63,21 @@ public:
     }
 
     virtual ~Box() = default;
-
+/**
+ * @brief Method for loading the information of a json string into the object
+ * @param obj rapidjson object of the string parsed into a json.
+ * @return true if success
+ */
     bool Deserialize(const rapidjson::Value &obj) {
         this->setRow(obj["row"].GetInt());
         this->setColumn(obj["column"].GetInt());
         return true;
     }
-
+/**
+ * @brief Method for loading the object's information into a json
+ * @param writer rapidjson writer instance.
+ * @return true is success.
+ */
     bool Serialize(rapidjson::Writer<rapidjson::StringBuffer> *writer) {
         writer->StartObject();
         writer->String("row");

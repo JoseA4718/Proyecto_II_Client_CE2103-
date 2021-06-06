@@ -6,6 +6,9 @@
 #define BACKEND_BALL_H
 
 
+/**
+ * @brief Class that represents the ball into the game.
+ */
 class Ball {
 private:
     int row;

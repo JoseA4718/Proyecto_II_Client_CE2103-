@@ -27,9 +27,14 @@ private:
     int field_lenght = 18;
 
 public:
-    bool scoreCheck(){
+    /**
+     * @brief This method verifies the goals of the players
+     * @return true if any of the players has the max goals.
+     */
+    bool scoreCheck() {
         return this->player_1->getScore() == this->max_goals or this->player_2->getScore() == this->max_goals;
     }
+
     explicit Game(GameSettings *settings) {
         this->field = new Field(this->field_height, this->field_lenght);
         this->ball = new Ball(5, 9);
@@ -39,7 +44,7 @@ public:
         this->obstacles = settings->getObstacles();
     };
 
-    int getMaxgoals(){
+    int getMaxgoals() {
         return this->max_goals;
     }
 
@@ -73,7 +78,8 @@ public:
     Player *getPlayer1() const {
         return player_1;
     }
-    Field *getField(){
+
+    Field *getField() {
         return this->field;
     }
 
