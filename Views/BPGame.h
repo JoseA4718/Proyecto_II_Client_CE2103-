@@ -31,6 +31,7 @@ private:
     Route *route1;
     Player *actualPlayer;
     Route *pathfindingAroute;
+    int flag = 1;
 
 public:
     void *Shot() {
@@ -84,7 +85,40 @@ public:
                  sf::Sprite &ballSprite, const sf::Texture &player1, const sf::Texture &player2, sf::Text &player1Name,
                  sf::Text &player2Name, sf::Text &player1Score, sf::Text &player2Score, sf::Text &goalsTowin,
                  sf::Text &selectedPower, sf::Text &selectedDirection) {
-        Shot();
+        if (actualPlayer->getName() != "AI"){
+            Shot();
+        }
+        else{
+            Path *path = new Path();
+            path->setStartY(Game::getInstance()->getBall()->getColumn());
+            path->setStartX(Game::getInstance()->getBall()->getRow());
+            if (this->actualPlayer->getName() == "Player 1") {
+                path->setEndY(17);
+                path->setEndX(5);
+            } else {
+                path->setEndY(2);
+                path->setEndX(5);
+            }
+
+            Message *msg = new Message();
+            msg->setBody(Json::convertPath(path));
+            msg->setRequest("ai_shot");
+
+            string msgJson = Json::convertMessage(msg);
+            Response *response = ServerConnection::sendMessage(msgJson);
+
+            Shoot *shoot = new Shoot();
+
+            shoot->Deserialize(response->getMessage());
+
+            dirX = shoot->getDirX();
+            dirY = shoot->getDirY();
+            power = shoot->getStrength();
+
+            Shot();
+
+
+        }
         LinkedList<Box *> *routeList = route1->getRoute();
         Box *ballBox;
         route1->show();
@@ -479,6 +513,13 @@ public:
                         shot_fx(window, bpGamebackgroundSprite, font, ballSprite, player1, player2, player1Name,
                                 player2Name, player1Score,
                                 player2Score, goalsTowin, selectedPower, selectedDirection);
+
+                        if (actualPlayer->getName() == "AI"){
+                            shot_fx(window, bpGamebackgroundSprite, font, ballSprite, player1, player2, player1Name,
+                                    player2Name, player1Score,
+                                    player2Score, goalsTowin, selectedPower, selectedDirection);
+                        }
+
 
                     }
                 }
