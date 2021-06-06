@@ -204,8 +204,8 @@ public:
         }
 
         //Next player1
-        actuaPlayer = Game::getInstance()->getNextPlayer(actuaPlayer);
-        if (actuaPlayer->getName() == "Player 1") {
+        actualPlayer = Game::getInstance()->getNextPlayer(actualPlayer);
+        if (actualPlayer->getName() == "Player 1") {
             player1Name.setFillColor(sf::Color::Red);
             player2Name.setFillColor(sf::Color::White);
         } else {
