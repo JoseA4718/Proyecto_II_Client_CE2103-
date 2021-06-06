@@ -55,7 +55,140 @@ public:
     }
 
 
-    //Falta Codigo
+    void shot_fx(sf::RenderWindow &window, const sf::Sprite &bpGamebackgroundSprite, const sf::Font &font,
+                 sf::Sprite &ballSprite, const sf::Texture &player1, const sf::Texture &player2, sf::Text &player1Name,
+                 sf::Text &player2Name, sf::Text &player1Score, sf::Text &player2Score, sf::Text &goalsTowin,
+                 sf::Text &selectedPower, sf::Text &selectedDirection) {
+        Shot();
+        LinkedList<Box *> *routeList = route1->getRoute();
+        Box *ballBox;
+        route1->show();
+        for (int i = 0; i < routeList->len; ++i) {
+
+            Box *box1 = routeList->get(i);
+
+            Game::getInstance()->getBall()->setRow(box1->getRow());
+            Game::getInstance()->getBall()->setColumn(box1->getColumn());
+
+            window.clear();
+            window.draw(bpGamebackgroundSprite);
+            player1Score.setString(to_string(Player1Score));
+            player2Score.setString(to_string(Player2Score));
+            goalsTowin.setString(to_string(goals));
+            selectedPower.setString(to_string(power));
+            selectedDirection.setString(direction);
+            window.draw(player1Name);
+            window.draw(player2Name);
+            window.draw(player1Score);
+            window.draw(player2Score);
+            window.draw(goalsTowin);
+            window.draw(selectedPower);
+            window.draw(selectedDirection);
+
+            for (int i = 1; i <= Game::getInstance()->getMatrix()->getRows(); i++) {
+                for (int j = 1; j <= Game::getInstance()->getMatrix()->getColumns(); j++) {
+                    Box *box = Game::getInstance()->getMatrix()->get(i, j);
+                    int x = box->getPosX();
+                    int y = box->getPosY();
+                    sf::RectangleShape obstacles(sf::Vector2f(70, 70));
+                    obstacles.setPosition(x, y);
+                    obstacles.setFillColor(sf::Color::Transparent);
+                    if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
+                        if (j <= 9){
+                            sf::Sprite player1Sprite(player1);
+                            player1Sprite.setPosition(x, y);
+                            window.draw(player1Sprite);
+                        }
+                        else{
+                            sf::Sprite player2Sprite(player2);
+                            player2Sprite.setPosition(x, y);
+                            window.draw(player2Sprite);
+                        }
+
+                    }
+                    window.draw(obstacles);
+                }
+            }
+            ballBox = Game::getInstance()->getMatrix()->get(Game::getInstance()->getBall()->getRow(),
+                                                            Game::getInstance()->getBall()->getColumn());
+            ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
+            window.draw(ballSprite);
+            window.display();
+            sf::sleep(sf::milliseconds(500));
+        }
+
+        //Goal check
+        if (dynamic_cast<GoalLineBox *>(ballBox) != nullptr) {
+            //Drawing of the goal screen
+            window.clear();
+            sf::RectangleShape goalBackground(sf::Vector2f(1600, 900));
+            sf::Text goalText;
+            goalText.setFont(font);
+
+            if(Game::getInstance()->getBall()->getColumn() != 1){
+                auto pPlayer = Game::getInstance()->getPlayer1();
+                pPlayer->addGoal();
+                goalBackground.setFillColor(sf::Color::Red);
+                goalText.setString("Player 1 scored!");
+            }else{
+                auto player2 = Game::getInstance()->getPlayer2();
+                player2->addGoal();
+                goalBackground.setFillColor(sf::Color::Blue);
+                goalText.setString("Player 2 scored!");
+            }
+
+            goalText.setCharacterSize(150);
+            goalText.setFillColor(sf::Color::White);
+            goalText.setPosition(150, 350);
+            window.draw(goalBackground);
+            window.draw(goalText);
+            window.display();
+            sf::sleep(sf::milliseconds(2000));
+
+            //Update of the scores
+            Player1Score = Game::getInstance()->getPlayer1()->getScore();
+            Player2Score = Game::getInstance()->getPlayer2()->getScore();
+
+            //Update ball position
+            Game::getInstance()->getBall()->setRow(5);
+            Game::getInstance()->getBall()->setColumn(9);
+        }
+
+        //Winner check
+        if(Game::getInstance()->scoreCheck()) {
+            window.clear();
+            sf::RectangleShape winnerBackground(sf::Vector2f(1600, 900));
+            sf::Text winnerText;
+            winnerText.setFont(font);
+            if(Game::getInstance()->getPlayer1()->getScore() == Game::getInstance()->getMaxgoals()){
+                winnerText.setString("Player 1 wins!");
+                winnerBackground.setFillColor(sf::Color::Red);
+            }else{
+                winnerText.setString("Player 2 wins!");
+                winnerBackground.setFillColor(sf::Color::Blue);
+            }
+            winnerText.setCharacterSize(150);
+            winnerText.setFillColor(sf::Color::White);
+            winnerText.setPosition(200, 350);
+            window.draw(winnerBackground);
+            window.draw(winnerText);
+            window.display();
+            sf::sleep(sf::milliseconds(2000));
+            window.close();
+        }
+
+        //Next player1
+        actuaPlayer = Game::getInstance()->getNextPlayer(actuaPlayer);
+        if (actuaPlayer->getName() == "Player 1") {
+            player1Name.setFillColor(sf::Color::Red);
+            player2Name.setFillColor(sf::Color::White);
+        } else {
+            player2Name.setFillColor(sf::Color::Blue);
+            player1Name.setFillColor(sf::Color::White);
+        }
+    }
+
+//Falta Codigo
     int start() {
         Game::getInstance()->getField()->setPositions();
         this->gamemode = "Gamemode";
@@ -251,133 +384,10 @@ public:
                         window.close();
                     }
                     if (event.key.code == sf::Keyboard::Enter) {
-                        Shot();
-                        LinkedList<Box *> *routeList = route1->getRoute();
-                        Box *ballBox;
-                        route1->show();
-                        for (int i = 0; i < routeList->len; ++i) {
+                        shot_fx(window, bpGamebackgroundSprite, font, ballSprite, player1, player2, player1Name,
+                                player2Name, player1Score,
+                                player2Score, goalsTowin, selectedPower, selectedDirection);
 
-                            Box *box1 = routeList->get(i);
-
-                            Game::getInstance()->getBall()->setRow(box1->getRow());
-                            Game::getInstance()->getBall()->setColumn(box1->getColumn());
-
-                            window.clear();
-                            window.draw(bpGamebackgroundSprite);
-                            player1Score.setString(to_string(this->Player1Score));
-                            player2Score.setString(to_string(this->Player2Score));
-                            goalsTowin.setString(to_string(this->goals));
-                            selectedPower.setString(to_string(this->power));
-                            selectedDirection.setString(this->direction);
-                            window.draw(player1Name);
-                            window.draw(player2Name);
-                            window.draw(player1Score);
-                            window.draw(player2Score);
-                            window.draw(goalsTowin);
-                            window.draw(selectedPower);
-                            window.draw(selectedDirection);
-
-                            for (int i = 1; i <= Game::getInstance()->getMatrix()->getRows(); i++) {
-                                for (int j = 1; j <= Game::getInstance()->getMatrix()->getColumns(); j++) {
-                                    Box *box = Game::getInstance()->getMatrix()->get(i, j);
-                                    int x = box->getPosX();
-                                    int y = box->getPosY();
-                                    sf::RectangleShape obstacles(sf::Vector2f(70, 70));
-                                    obstacles.setPosition(x, y);
-                                    obstacles.setFillColor(sf::Color::Transparent);
-                                    if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
-                                        if (j <= 9){
-                                            sf::Sprite player1Sprite(player1);
-                                            player1Sprite.setPosition(x, y);
-                                            window.draw(player1Sprite);
-                                        }
-                                        else{
-                                            sf::Sprite player2Sprite(player2);
-                                            player2Sprite.setPosition(x, y);
-                                            window.draw(player2Sprite);
-                                        }
-
-                                    }
-                                    window.draw(obstacles);
-                                }
-                            }
-                            ballBox = Game::getInstance()->getMatrix()->get(Game::getInstance()->getBall()->getRow(),
-                                                                            Game::getInstance()->getBall()->getColumn());
-                            ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
-                            window.draw(ballSprite);
-                            window.display();
-                            sf::sleep(sf::milliseconds(500));
-                        }
-
-                        //Goal check
-                        if (dynamic_cast<GoalLineBox *>(ballBox) != nullptr) {
-                            //Drawing of the goal screen
-                            window.clear();
-                            sf::RectangleShape goalBackground(sf::Vector2f(1600, 900));
-                            sf::Text goalText;
-                            goalText.setFont(font);
-                            
-                            if(Game::getInstance()->getBall()->getColumn() != 1){
-                                auto pPlayer = Game::getInstance()->getPlayer1();
-                                pPlayer->addGoal();
-                                goalBackground.setFillColor(sf::Color::Red);
-                                goalText.setString("Player 1 scored!");
-                            }else{
-                                auto player2 = Game::getInstance()->getPlayer2();
-                                player2->addGoal();
-                                goalBackground.setFillColor(sf::Color::Blue);
-                                goalText.setString("Player 2 scored!");
-                            }
-                            
-                            goalText.setCharacterSize(150);
-                            goalText.setFillColor(sf::Color::White);
-                            goalText.setPosition(150, 350);
-                            window.draw(goalBackground);
-                            window.draw(goalText);
-                            window.display();
-                            sf::sleep(sf::milliseconds(2000));
-
-                            //Update of the scores
-                            this->Player1Score = Game::getInstance()->getPlayer1()->getScore();
-                            this->Player2Score = Game::getInstance()->getPlayer2()->getScore();
-
-                            //Update ball position
-                            Game::getInstance()->getBall()->setRow(5);
-                            Game::getInstance()->getBall()->setColumn(9);
-                        }
-
-                        //Winner check
-                        if(Game::getInstance()->scoreCheck()) {
-                            window.clear();
-                            sf::RectangleShape winnerBackground(sf::Vector2f(1600, 900));
-                            sf::Text winnerText;
-                            winnerText.setFont(font);
-                            if(Game::getInstance()->getPlayer1()->getScore() == Game::getInstance()->getMaxgoals()){
-                                winnerText.setString("Player 1 wins!");
-                                winnerBackground.setFillColor(sf::Color::Red);
-                            }else{
-                                winnerText.setString("Player 2 wins!");
-                                winnerBackground.setFillColor(sf::Color::Blue);
-                            }
-                            winnerText.setCharacterSize(150);
-                            winnerText.setFillColor(sf::Color::White);
-                            winnerText.setPosition(200, 350);
-                            window.draw(winnerBackground);
-                            window.draw(winnerText);
-                            window.display();
-                            sf::sleep(sf::milliseconds(2000));
-                            window.close();
-                        }
-
-                        //Next player1
-                        this->actuaPlayer = Game::getInstance()->getNextPlayer(this->actuaPlayer);
-                        if (actuaPlayer->getName() == "Player 1") {
-                            player1Name.setFillColor(sf::Color::Red);
-                            player2Name.setFillColor(sf::Color::White);
-                        } else {
-                            player2Name.setFillColor(sf::Color::Blue);
-                            player1Name.setFillColor(sf::Color::White);
-                        }
                     }
                 }
                 //Binding to close program
