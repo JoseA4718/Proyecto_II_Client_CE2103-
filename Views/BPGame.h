@@ -13,6 +13,7 @@
 #include "../backend/util/Json.h"
 #include "../Socket/ServerConnection .h"
 #include "../backend/soccar/Data Structures/LinkedList.h"
+#include "../backend/soccar/Path.h"
 
 
 using namespace std;
@@ -29,10 +30,11 @@ private:
     int Player1Score;
     int Player2Score;
     Route *route1;
-    Player *actuaPlayer;
+    Player *actualPlayer;
+    Route *pathfindingAroute;
 
 public:
-    Route *Shot() {
+    void *Shot() {
 
         Shoot *shoot1 = new Shoot();
         shoot1->setDirX(dirX);
@@ -51,7 +53,31 @@ public:
         Route *route = new Route();
         route->Deserialize(response->getMessage());
         route1 = route;
+    }
 
+    void *calculatePathfinding() {
+        Path *path = new Path();
+        path->setStartY(Game::getInstance()->getBall()->getColumn());
+        path->setStartX(Game::getInstance()->getBall()->getRow());
+        if (this->actualPlayer->getName() == "Player 1") {
+            path->setEndY(17);
+            path->setEndX(5);
+        } else {
+            path->setEndY(2);
+            path->setEndX(5);
+        }
+        Message *msg = new Message();
+        msg->setBody(Json::convertPath(path));
+        msg->setRequest("star");
+
+        string msgJson = Json::convertMessage(msg);
+        cerr << "msgJson: " << msgJson << endl;
+        Response *response = ServerConnection::sendMessage(msgJson);
+
+        Route *pathfinding = new Route();
+        pathfinding->Deserialize(response->getMessage());
+        pathfinding->show();
+        this->pathfindingAroute = pathfinding;
     }
 
 
@@ -194,7 +220,7 @@ public:
         this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
-        this->actuaPlayer = Game::getInstance()->getPlayer1();
+        this->actualPlayer = Game::getInstance()->getPlayer1();
         int width = 1600;
         int height = 900;
         sf::RenderWindow window(sf::VideoMode(width, height), "BP Game");
@@ -231,9 +257,15 @@ public:
 
         //Ball resource loading
         sf::Texture ball;
-        if (!ball.loadFromFile(("../Resources/Ball2.png")))
+        if (!ball.loadFromFile(("../Resources/Ball.png")))
             return EXIT_FAILURE;
         sf::Sprite ballSprite(ball);
+
+        //PathfindingBall resource loading
+        sf::Texture pathfindingBall;
+        if (!pathfindingBall.loadFromFile(("../Resources/PathfindingBall.png")))
+            return EXIT_FAILURE;
+        sf::Sprite pathfindongBallSprite(pathfindingBall);
 
         //Player resource loading
         sf::Texture player1;
@@ -301,7 +333,6 @@ public:
         selectedDirection.setPosition(780, 850);
 
 
-
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -348,8 +379,67 @@ public:
                             this->dirY = 1;
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 541 &&
-                                   event.mouseButton.y <= 619) { //Button for pathfinder direction
-                            this->direction = "Pathfinder";
+                                   event.mouseButton.y <= 619) { //Button for pathfinding direction
+                            this->direction = "Pro tip";
+                            calculatePathfinding();
+                            LinkedList<Box *> *pathfindingRoute = pathfindingAroute->getRoute();
+                            Box *ballBox;
+                            for (int i = 0; i < pathfindingRoute->len; ++i) {
+
+                                Box *box1 = pathfindingRoute->get(i);
+
+                                pathfindongBallSprite.setPosition(Game::getInstance()->getMatrix()->get(box1->getRow(),
+                                                                                                        box1->getColumn())->getPosX(),
+                                                                  Game::getInstance()->getMatrix()->get(box1->getRow(),
+                                                                                                        box1->getColumn())->getPosY());
+
+                                window.clear();
+                                window.draw(bpGamebackgroundSprite);
+                                player1Score.setString(to_string(this->Player1Score));
+                                player2Score.setString(to_string(this->Player2Score));
+                                goalsTowin.setString(to_string(this->goals));
+                                selectedPower.setString(to_string(this->power));
+                                selectedDirection.setString(this->direction);
+                                window.draw(player1Name);
+                                window.draw(player2Name);
+                                window.draw(player1Score);
+                                window.draw(player2Score);
+                                window.draw(goalsTowin);
+                                window.draw(selectedPower);
+                                window.draw(selectedDirection);
+
+                                for (int i = 1; i <= Game::getInstance()->getMatrix()->getRows(); i++) {
+                                    for (int j = 1; j <= Game::getInstance()->getMatrix()->getColumns(); j++) {
+                                        Box *box = Game::getInstance()->getMatrix()->get(i, j);
+                                        int x = box->getPosX();
+                                        int y = box->getPosY();
+                                        sf::RectangleShape obstacles(sf::Vector2f(70, 70));
+                                        obstacles.setPosition(x, y);
+                                        obstacles.setFillColor(sf::Color::Transparent);
+                                        if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
+                                            if (j <= 9) {
+                                                sf::Sprite player1Sprite(player1);
+                                                player1Sprite.setPosition(x, y);
+                                                window.draw(player1Sprite);
+                                            } else {
+                                                sf::Sprite player2Sprite(player2);
+                                                player2Sprite.setPosition(x, y);
+                                                window.draw(player2Sprite);
+                                            }
+
+                                        }
+                                        window.draw(obstacles);
+                                    }
+                                }
+                                ballBox = Game::getInstance()->getMatrix()->get(
+                                        Game::getInstance()->getBall()->getRow(),
+                                        Game::getInstance()->getBall()->getColumn());
+                                ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
+                                window.draw(ballSprite);
+                                window.draw(pathfindongBallSprite);
+                                window.display();
+                                sf::sleep(sf::milliseconds(500));
+                            }
                         } else if (event.mouseButton.x >= 130 && event.mouseButton.x <= 235 &&
                                    event.mouseButton.y >= 625 &&
                                    event.mouseButton.y <= 706) { //Button for down direction
@@ -420,12 +510,11 @@ public:
                     obstacles.setPosition(x, y);
                     obstacles.setFillColor(sf::Color::Transparent);
                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
-                        if (j <= 9){
+                        if (j <= 9) {
                             sf::Sprite player1Sprite(player1);
                             player1Sprite.setPosition(x, y);
                             window.draw(player1Sprite);
-                        }
-                        else{
+                        } else {
                             sf::Sprite player2Sprite(player2);
                             player2Sprite.setPosition(x, y);
                             window.draw(player2Sprite);
@@ -437,9 +526,12 @@ public:
             }
 
             //Drawing of the ball
-            Box *ballBox = Game::getInstance()->getMatrix()->get(Game::getInstance()->getBall()->getRow(), Game::getInstance()->getBall()->getColumn());
+            Box *ballBox = Game::getInstance()->getMatrix()->get(Game::getInstance()->getBall()->getRow(),
+                                                                 Game::getInstance()->getBall()->getColumn());
             ballSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
+            pathfindongBallSprite.setPosition(ballBox->getPosX(), ballBox->getPosY());
             window.draw(ballSprite);
+            window.draw(pathfindongBallSprite);
 
             window.display();
         }

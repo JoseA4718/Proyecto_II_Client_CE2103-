@@ -18,7 +18,6 @@ private:
     int pos_x;
     //Position to draw the box in
     int pos_y;
-
     //
     int row;
     int column;
@@ -48,42 +47,34 @@ public:
         Box::column = column;
     }
 
-    void setCoordinates(int x, int y){
+    void setCoordinates(int x, int y) {
         this->pos_x = x;
         this->pos_y = y;
     }
 
-    int getX(){
+    int getX() {
         return this->pos_x;
     }
 
-    int getY(){
+    int getY() {
         return this->pos_y;
     }
 
-public:
     virtual ~Box() = default;
 
     bool Deserialize(const rapidjson::Value &obj) {
-
         this->setRow(obj["row"].GetInt());
         this->setColumn(obj["column"].GetInt());
-
-
         return true;
     }
 
     bool Serialize(rapidjson::Writer<rapidjson::StringBuffer> *writer) {
         writer->StartObject();
-
         writer->String("row");
         writer->Int(this->getRow());
         writer->String("column");
         writer->Int(this->getColumn());
-
-
         writer->EndObject();
-
         return true;
     }
 
@@ -92,7 +83,6 @@ public:
         return os;
     }
 
-public:
     int getPosX() const {
         return pos_x;
     }
@@ -102,7 +92,7 @@ public:
     }
 
     void show() {
-        cout << "{x: " << this->column << " y: " << this->row << " }";
+        cout << "{column: " << this->column << " row: " << this->row << " }";
     }
 };
 

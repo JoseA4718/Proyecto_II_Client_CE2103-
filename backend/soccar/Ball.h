@@ -10,6 +10,8 @@ class Ball {
 private:
     int row;
     int column;
+    int posX;
+    int posY;
 public:
     void setRow(int row) {
         Ball::row = row;
@@ -19,11 +21,6 @@ public:
         Ball::column = column;
     }
 
-private:
-    int posX;
-    int posY;
-
-public:
     Ball(int row, int column){
         this->row = row;
         this->column = column;

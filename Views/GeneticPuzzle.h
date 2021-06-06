@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 class GeneticPuzzle {
+private:
 public:
     int start() {
         int width = 1600;
@@ -46,8 +47,6 @@ public:
             window.display();
         }
     }
-
-private:
 };
 
 #endif //PROYECTO_II_CLIENT_CE2103__GENETICPUZZLE_H
