@@ -21,9 +21,8 @@ using namespace std;
 class BPGame {
 private:
     int goals = Game::getInstance()->getMaxgoals();
-    int numberOfPlayers;
-    string gamemode;
     int power;
+    string p2 = Game::getInstance()->getPlayer2()->getName();
     string direction;
     int dirX;
     int dirY;
@@ -217,7 +216,6 @@ public:
 //Falta Codigo
     int start() {
         Game::getInstance()->getField()->setPositions();
-        this->gamemode = "Gamemode";
         this->Player1Score = 0;
         this->Player2Score = 0;
         this->actualPlayer = Game::getInstance()->getPlayer1();
@@ -287,7 +285,11 @@ public:
         //Text of the player2Name
         sf::Text player2Name;
         player2Name.setFont(font);
-        player2Name.setString("Player 2");
+        if (p2 == "AI"){
+            player2Name.setString("AI");
+        }else{
+            player2Name.setString("Player 2");
+        }
         player2Name.setCharacterSize(80);
         player2Name.setFillColor(sf::Color::White);
         player2Name.setPosition(1200, 16);
