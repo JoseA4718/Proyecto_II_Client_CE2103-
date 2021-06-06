@@ -75,6 +75,7 @@ public:
             window.draw(geneticPuzzletext);
             window.display();
         }
+        return 0;
     }
 };
 

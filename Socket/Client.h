@@ -33,7 +33,7 @@ public:
      * Inits the listening port for the client in the specified port on the socket.
      * @return returns 1 if connection was not successful.
      */
-    [[noreturn]] int initClient()
+   int initClient()
     {
         //	Create a socket
         sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -73,7 +73,6 @@ public:
             else
             {
                 //		Display response";
-
                 string tmp = string(buf, 0,  bytesReceived);
                 if (!tmp.empty()) {
                     message = tmp;
@@ -83,8 +82,6 @@ public:
 
         //	Close the socket
         //close(sock);
-
-        return 0;
     }
 
     void setMessage(const string &message);

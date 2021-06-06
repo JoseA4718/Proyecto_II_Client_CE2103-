@@ -103,6 +103,7 @@ public:
             window.draw(loadImage);
             window.display();
         }
+        return 0;
     }
 
 private:

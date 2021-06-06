@@ -190,6 +190,7 @@ public:
             window.draw(selectedPPT);
             window.display();
         }
+        return 0;
     }
 };
 

@@ -25,10 +25,10 @@ public:
                     if (event.mouseButton.button == sf::Mouse::Left) {
                         if (event.mouseButton.x >= 535 && event.mouseButton.x <= 760 &&
                             event.mouseButton.y >= 780 && event.mouseButton.y <= 865) { //Previous button
-                            cout<<"Prev";
+                            cout << "Prev";
                         } else if (event.mouseButton.x >= 915 && event.mouseButton.x <= 1135 &&
                                    event.mouseButton.y >= 780 && event.mouseButton.y <= 865) { //Next button
-                            cout<<"Nest";
+                            cout << "Nest";
                         }
                     }
                 }
@@ -46,6 +46,7 @@ public:
             window.draw(geneticPuzzlebackgroundSprite);
             window.display();
         }
+        return 0;
     }
 };
 

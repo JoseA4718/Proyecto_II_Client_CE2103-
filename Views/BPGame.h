@@ -31,18 +31,17 @@ private:
     Route *route1;
     Player *actualPlayer;
     Route *pathfindingAroute;
-    int flag = 1;
 
 public:
-    void *Shot() {
+    void Shot() {
 
-        Shoot *shoot1 = new Shoot();
+        auto *shoot1 = new Shoot();
         shoot1->setDirX(dirX);
         shoot1->setDirY(dirY);
         shoot1->setStrength(power / 10);
         string shotJson = Json::convertShot(shoot1);
 
-        Message *msg = new Message();
+        auto *msg = new Message();
         msg->setBody(shotJson);
         msg->setRequest("shot");
 
@@ -50,12 +49,12 @@ public:
 
         Response *response = ServerConnection::sendMessage(msgJson);
 
-        Route *route = new Route();
+        auto *route = new Route();
         route->Deserialize(response->getMessage());
         route1 = route;
     }
 
-    void *calculatePathfinding() {
+    void calculatePathfinding() {
         Path *path = new Path();
         path->setStartY(Game::getInstance()->getBall()->getColumn());
         path->setStartX(Game::getInstance()->getBall()->getRow());
@@ -66,7 +65,7 @@ public:
             path->setEndY(2);
             path->setEndX(5);
         }
-        Message *msg = new Message();
+        auto *msg = new Message();
         msg->setBody(Json::convertPath(path));
         msg->setRequest("star");
 
@@ -74,7 +73,7 @@ public:
         cerr << "msgJson: " << msgJson << endl;
         Response *response = ServerConnection::sendMessage(msgJson);
 
-        Route *pathfinding = new Route();
+        auto *pathfinding = new Route();
         pathfinding->Deserialize(response->getMessage());
         pathfinding->show();
         this->pathfindingAroute = pathfinding;
@@ -85,10 +84,9 @@ public:
                  sf::Sprite &ballSprite, const sf::Texture &player1, const sf::Texture &player2, sf::Text &player1Name,
                  sf::Text &player2Name, sf::Text &player1Score, sf::Text &player2Score, sf::Text &goalsTowin,
                  sf::Text &selectedPower, sf::Text &selectedDirection) {
-        if (actualPlayer->getName() != "AI"){
+        if (actualPlayer->getName() != "AI") {
             Shot();
-        }
-        else{
+        } else {
             Path *path = new Path();
             path->setStartY(Game::getInstance()->getBall()->getColumn());
             path->setStartX(Game::getInstance()->getBall()->getRow());
@@ -153,12 +151,11 @@ public:
                     obstacles.setPosition(x, y);
                     obstacles.setFillColor(sf::Color::Transparent);
                     if (dynamic_cast<ObstacleBox *>(box) != nullptr) {
-                        if (j <= 9){
+                        if (j <= 9) {
                             sf::Sprite player1Sprite(player1);
                             player1Sprite.setPosition(x, y);
                             window.draw(player1Sprite);
-                        }
-                        else{
+                        } else {
                             sf::Sprite player2Sprite(player2);
                             player2Sprite.setPosition(x, y);
                             window.draw(player2Sprite);
@@ -184,12 +181,12 @@ public:
             sf::Text goalText;
             goalText.setFont(font);
 
-            if(Game::getInstance()->getBall()->getColumn() != 1){
+            if (Game::getInstance()->getBall()->getColumn() != 1) {
                 auto pPlayer = Game::getInstance()->getPlayer1();
                 pPlayer->addGoal();
                 goalBackground.setFillColor(sf::Color::Red);
                 goalText.setString("Player 1 scored!");
-            }else{
+            } else {
                 auto player2 = Game::getInstance()->getPlayer2();
                 player2->addGoal();
                 goalBackground.setFillColor(sf::Color::Blue);
@@ -214,15 +211,15 @@ public:
         }
 
         //Winner check
-        if(Game::getInstance()->scoreCheck()) {
+        if (Game::getInstance()->scoreCheck()) {
             window.clear();
             sf::RectangleShape winnerBackground(sf::Vector2f(1600, 900));
             sf::Text winnerText;
             winnerText.setFont(font);
-            if(Game::getInstance()->getPlayer1()->getScore() == Game::getInstance()->getMaxgoals()){
+            if (Game::getInstance()->getPlayer1()->getScore() == Game::getInstance()->getMaxgoals()) {
                 winnerText.setString("Player 1 wins!");
                 winnerBackground.setFillColor(sf::Color::Red);
-            }else{
+            } else {
                 winnerText.setString("Player 2 wins!");
                 winnerBackground.setFillColor(sf::Color::Blue);
             }
@@ -319,9 +316,9 @@ public:
         //Text of the player2Name
         sf::Text player2Name;
         player2Name.setFont(font);
-        if (p2 == "AI"){
+        if (p2 == "AI") {
             player2Name.setString("AI");
-        }else{
+        } else {
             player2Name.setString("Player 2");
         }
         player2Name.setCharacterSize(80);
@@ -514,7 +511,7 @@ public:
                                 player2Name, player1Score,
                                 player2Score, goalsTowin, selectedPower, selectedDirection);
 
-                        if (actualPlayer->getName() == "AI"){
+                        if (actualPlayer->getName() == "AI") {
                             shot_fx(window, bpGamebackgroundSprite, font, ballSprite, player1, player2, player1Name,
                                     player2Name, player1Score,
                                     player2Score, goalsTowin, selectedPower, selectedDirection);
@@ -578,6 +575,7 @@ public:
 
             window.display();
         }
+        return 0;
     }
 };
 
