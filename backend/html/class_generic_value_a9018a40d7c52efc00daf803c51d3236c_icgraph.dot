@@ -1,0 +1,12 @@
+digraph "GenericValue::operator="
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="GenericValue::operator=",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Assignment with move semantics."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="GenericDocument::ParseStream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generic_document.html#afe94c0abc83a20f2d7dc1ba7677e6238",tooltip="Parse JSON text from an input stream (with Encoding conversion)"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="GenericDocument::Populate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generic_document.html#a36fbc7d0a9595d26e0d2c8859d207d1f",tooltip="Populate this document by a generator which produces SAX events."];
+}

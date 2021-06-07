@@ -1,0 +1,11 @@
+digraph "soccar/Box" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_c3287c44aff5d884b78bd3f7984dd3a3 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="soccar" fontname="Helvetica", fontsize="10", URL="dir_c3287c44aff5d884b78bd3f7984dd3a3.html"]
+  dir_dc53b9de577cbd9fc71d4550f68828af [shape=box, label="Box", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_dc53b9de577cbd9fc71d4550f68828af.html"];
+  }
+  dir_97aefd0d527b934f1d99a682da8fe6a9 [shape=box label="lib" fillcolor="white" style="filled" color="red" URL="dir_97aefd0d527b934f1d99a682da8fe6a9.html"];
+  dir_dc53b9de577cbd9fc71d4550f68828af->dir_97aefd0d527b934f1d99a682da8fe6a9 [headlabel="2", labeldistance=1.5 headhref="dir_000012_000006.html"];
+}
