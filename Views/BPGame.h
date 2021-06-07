@@ -33,6 +33,10 @@ private:
     Route *pathfindingAroute;
 
 public:
+    /**
+     * @brief This method takes the value of the x and y directions, as well as the power, with that it generates a Shoot() and send it to the server to return the path the ball is going to have
+     * It changes the value of the current route the ball is following
+     */
     void Shot() {
 
         auto *shoot1 = new Shoot();
@@ -53,7 +57,9 @@ public:
         route->Deserialize(response->getMessage());
         route1 = route;
     }
-
+    /**
+     * @brief creates a path and sends it to the server to return the pathfinding route
+     */
     void calculatePathfinding() {
         Path *path = new Path();
         path->setStartY(Game::getInstance()->getBall()->getColumn());
@@ -79,7 +85,22 @@ public:
         this->pathfindingAroute = pathfinding;
     }
 
-
+    /**
+     * @brief visual movement of the ball
+     * @param window
+     * @param bpGamebackgroundSprite
+     * @param font
+     * @param ballSprite
+     * @param player1
+     * @param player2
+     * @param player1Name
+     * @param player2Name
+     * @param player1Score
+     * @param player2Score
+     * @param goalsTowin
+     * @param selectedPower
+     * @param selectedDirection
+     */
     void shot_fx(sf::RenderWindow &window, const sf::Sprite &bpGamebackgroundSprite, const sf::Font &font,
                  sf::Sprite &ballSprite, const sf::Texture &player1, const sf::Texture &player2, sf::Text &player1Name,
                  sf::Text &player2Name, sf::Text &player1Score, sf::Text &player2Score, sf::Text &goalsTowin,
@@ -245,6 +266,10 @@ public:
     }
 
 //Falta Codigo
+    /**
+     * @brief starts the game, set sprites and the game while true.
+     * @return
+     */
     int start() {
         Game::getInstance()->getField()->setPositions();
         this->Player1Score = 0;
